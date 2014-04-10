@@ -1,0 +1,61 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clickable="true"
+    android:orientation="horizontal"
+    android:paddingLeft="40dp"
+    tools:context=".ScheduleFragment" >
+
+    <TextView
+        android:id="@+id/course_id_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="7dp"
+        android:drawablePadding="5dp"
+        android:gravity="center_vertical"
+        android:text="@string/placeholder_short"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/sec_num"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="7dp"
+        android:drawablePadding="5dp"
+        android:gravity="center_vertical"
+        android:text="@string/placeholder_short"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/course_num"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="7dp"
+        android:drawablePadding="5dp"
+        android:gravity="center_vertical"
+        android:text="@string/placeholder_short"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/courseInstructorTimeRoom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="7dp"
+        android:layout_weight="0.77"
+        android:drawablePadding="5dp"
+        android:gravity="center_vertical"
+        android:text="@string/placeholder_short"
+        android:textSize="16sp" />
+
+    <ImageButton
+        android:id="@+id/imageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:contentDescription="@+id/deleteCourse"
+        android:onClick="onImageButtonClick"
+        android:src="@android:drawable/ic_input_delete"
+        android:visibility="visible" />
+
+</LinearLayout>

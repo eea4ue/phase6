@@ -1,0 +1,92 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/RelativeLayout1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/green"
+    android:layout_gravity="center_vertical|center_horizontal" >
+
+    <TextView
+        android:id="@+id/welcomeTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/userNameEditText"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="70dp"
+        android:gravity="center"
+        android:paddingBottom="50dp"
+        android:paddingTop="20dp"
+        android:text="@string/welcome"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textSize="50sp" />
+
+    <EditText
+        android:id="@+id/userNameEditText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/welcomeTextView"
+        android:layout_alignParentTop="true"
+        android:layout_alignRight="@+id/welcomeTextView"
+        android:layout_marginTop="200dp"
+        android:background="@color/grey"
+        android:ems="10"
+        android:gravity="center"
+        android:hint="@string/username"
+        android:inputType="text"
+        android:paddingBottom="20dp"
+        android:paddingTop="20dp"
+        android:textAppearance="?android:attr/textAppearanceSmallInverse" />
+
+    <EditText
+        android:id="@+id/passwordEditText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/userNameEditText"
+        android:layout_alignRight="@+id/userNameEditText"
+        android:layout_centerVertical="true"
+        android:background="@color/grey"
+        android:ems="10"
+        android:gravity="center"
+        android:hint="@string/password"
+        android:inputType="textPassword"
+        android:paddingBottom="20dp"
+        android:paddingTop="20dp"
+        android:textAppearance="?android:attr/textAppearanceSmallInverse" />
+
+    <Button
+        android:id="@+id/loginButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/passwordEditText"
+        android:layout_alignRight="@+id/passwordEditText"
+        android:layout_below="@+id/passwordEditText"
+        android:layout_marginTop="42dp"
+        android:onClick="launchMain"
+        android:paddingBottom="20dp"
+        android:paddingTop="20dp"
+        android:text="@string/login" />
+
+    <TextView
+        android:id="@+id/orTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/loginButton"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="22dp"
+        android:text="@string/or" />
+
+    <Button
+        android:id="@+id/registerButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/loginButton"
+        android:layout_alignRight="@+id/loginButton"
+        android:layout_below="@+id/orTextView"
+        android:layout_marginTop="22dp"
+        android:gravity="center"
+        android:onClick="launchAccountCreate"
+        android:paddingBottom="20dp"
+        android:paddingTop="20dp"
+        android:text="@string/register" />
+
+</RelativeLayout>

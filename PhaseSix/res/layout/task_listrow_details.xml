@@ -1,0 +1,68 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="40dp"
+    android:clickable="true"
+    android:orientation="horizontal"
+    android:paddingLeft="40dp"
+    tools:context=".TaskList" >
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="5dp"
+        android:text="@string/task_id"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/taskIDTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="10dp"
+        android:drawablePadding="5dp"
+        android:gravity="left"
+        android:text="@string/placeholder_short"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/taskTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.70"
+        android:drawablePadding="5dp"
+        android:gravity="left"
+        android:text="@string/placeholder"
+        android:textSize="16sp"
+        android:textStyle="bold" >
+    </TextView>
+
+    <Button
+        android:id="@+id/editTaskButton"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="editTask"
+        android:text="@string/edit_task" />
+
+    <Button
+        android:id="@+id/assignTaskButton"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="assignTask"
+        android:text="@string/assign_task" />
+
+    <ImageView
+        android:id="@+id/deleteTaskButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:contentDescription="@+id/deleteTask"
+        android:onClick="onTaskImageButtonClick"
+        android:src="@android:drawable/ic_input_delete"
+        android:visibility="visible" />
+
+</LinearLayout>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="baby_blue">#A1CAF1</color>
+    <color name="eggshell">#e0e0c0</color>
+    <color name="pink">#e0c0c0</color>
+    <color name="orange_faded">#e0c0a0</color>
+    <color name="grey">#F2F3F4</color>
+    <color name="red">#FF4040</color>
+    <color name="black">#000000</color>
+    <color name="green">#93C572</color>
+</resources>

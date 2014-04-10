@@ -1,0 +1,76 @@
+<resources>
+
+    <string name="app_name">Pepper</string>
+    <string name="dev_names">Members: Seid | Larsen | Amas</string>
+    <string name="team_pepper">Team: Pepper</string>
+    <string name="welcome">Welcome</string>
+    <string name="login">Login</string>
+    <string name="user_colon">User: </string>
+    <string name="or">or</string>
+    <string name="create_account">Create Account</string>
+    <string name="register">Register</string>
+    <string name="username">Username</string>
+    <string name="username_hint">e.g. aaa123</string>
+    <string name="password">Password</string>
+    <string name="password_confirm">Confirm Password</string>
+    <string name="projects">Projects</string>
+    <string name="tasks">Tasks</string>
+    <string name="meetings">Meetings</string>
+    <string name="title_activity_course_list">Course List</string>
+    <string name="my_home">My Home</string>
+    <string name="my_schedule">Schedule</string>
+    <string name="HOME">HOME</string>
+    <string name="courses">Course Info</string>
+    <string name="team">Team</string>
+    <string name="placeholder">----------</string>
+    <string name="placeholder_short">--</string>
+    <string name="search_button">Search</string>
+    <string name="add_to_user_course_list">Add To User Course List?</string>
+    <string name="view_my_course_list">View My Course List</string>
+    <string name="title_user_list">User List</string>
+    <string name="add_to_course_list">Add</string>
+    <string name="get_course_info_button">Info</string>
+    <string name="menu_settings">Settings</string>
+    <string name="about">About</string>
+    <string name="OK_button">OK</string>
+    <string name="Cancel_button">Cancel</string>
+    <string name="enter_button">Enter</string>
+    <string name="delete_button">Clear List</string>
+    <string name="user">User</string>
+    <string name="to_me">To Me</string>
+    <string name="to_other">To Other</string>
+    <string name="create_task">Create a New Task</string>
+    <string name="add_new_project">Add a New Project</string>
+    <string name="add_new_tasks">Add a New Task</string>
+    <string name="assign_task">Assign</string>
+    <string name="edit_task">Edit</string>
+    <string name="edit_project">Edit Project</string>
+    <string name="test_app_user">TestAppUser</string>
+
+    <!-- Course Info Strings -->
+    <string name="course_id">CourseID</string>
+    <string name="course_name">Course Name</string>
+    <string name="section_num">Section</string>
+    <string name="course_num">Course Num</string>
+    <string name="instructor">Instructor</string>
+    <string name="meet_string">Meet Time</string>
+    <string name="meet_room">Room</string>
+
+    <!-- CourseID AlertDialog Strings -->
+    <string name="enter_course">Enter Course ID</string>
+    <string name="add_courses">Add Courses</string>
+    <string name="delete_course">Delete Course</string>
+    <string name="invalid_course_ID">Invalid CourseID Entered</string>
+    <string name="missing_course_ID">Missing CourseID</string>
+
+    <!-- Project/Task Strings -->
+    <string name="task_title">Task Title</string>
+    <string name="task_id">Task ID: </string>
+    <string name="task_status">Task Status</string>
+    <string name="project_id">Project ID</string>
+    <string name="project_title">Project Title</string>
+    <string name="project_colon">Project: </string>
+    <string name="id_colon">ID: </string>
+    <string name="project_delete_confirm">Are you sure you want to delete this Project?</string>
+
+</resources>

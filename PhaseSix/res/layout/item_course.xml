@@ -1,0 +1,46 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clickable="true"
+    android:orientation="horizontal"
+    android:paddingLeft="40dp"
+    tools:context=".CourseSearch" >
+
+    <TextView
+        android:id="@+id/course_id_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/placeholder_short"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/sec_num"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/placeholder_short"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/course_num"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/placeholder_short"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/courseInstructorTimeRoom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.85"
+        android:text="@string/placeholder_short"
+        android:textSize="16sp" />
+
+    <CheckBox
+        android:id="@+id/checkbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:focusable="true"
+        android:onClick="onCheckboxClicked" />
+
+</LinearLayout>
