@@ -32,3 +32,7 @@ PhaseSix/bin/res/crunch/drawable-xxhdpi/ic_launcher.png
 PhaseSix/bin/dexedLibs/gson-2.2.2-sources-a7f8eeab0c8756755fa831ec491c5e94.jar
 
 PhaseSix/bin/resources.ap_
+
+PhaseSix/gen/com/cs4720project/phasesix/R.java
+
+PhaseSix/gen/com/cs4720project/phasesix/BuildConfig.java

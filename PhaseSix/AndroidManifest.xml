@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.cs4720project.phasefour"
+    package="com.cs4720project.phasesix"
     android:versionCode="1"
     android:versionName="1.0" >
 
@@ -21,7 +21,7 @@
         android:logo="@drawable/pepper"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="com.cs4720project.phasefour.Splash"
+            android:name="com.cs4720project.phasesix.Splash"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -30,27 +30,27 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.cs4720project.phasefour.CourseSearch"
+            android:name="com.cs4720project.phasesix.CourseSearch"
             android:label="@string/title_activity_course_list" >
         </activity>
         <activity
-            android:name="com.cs4720project.phasefour.MainActivity"
+            android:name="com.cs4720project.phasesix.MainActivity"
             android:label="@string/my_home" >
         </activity>
         <activity
-            android:name="com.cs4720project.phasefour.AccountCreate"
+            android:name="com.cs4720project.phasesix.AccountCreate"
             android:label="@string/create_account" >
         </activity>
         <activity
-            android:name="com.cs4720project.phasefour.ProjectsFragment"
+            android:name="com.cs4720project.phasesix.ProjectsFragment"
             android:label="@string/projects" >
         </activity>
         <activity
-            android:name="com.cs4720project.phasefour.ScheduleFragment"
+            android:name="com.cs4720project.phasesix.ScheduleFragment"
             android:label="@string/my_schedule" >
         </activity>
         <activity
-            android:name="com.cs4720project.phasefour.TaskList"
+            android:name="com.cs4720project.phasesix.TaskList"
             android:label="@string/tasks" >
         </activity>
     </application>
