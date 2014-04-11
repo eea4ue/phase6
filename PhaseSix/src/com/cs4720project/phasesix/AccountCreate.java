@@ -12,8 +12,6 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 
-import com.cs4720project.phasefour.R;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;

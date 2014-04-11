@@ -1,7 +1,5 @@
 package com.cs4720project.phasesix;
 
-import com.cs4720project.phasefour.R;
-
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.FragmentTransaction;

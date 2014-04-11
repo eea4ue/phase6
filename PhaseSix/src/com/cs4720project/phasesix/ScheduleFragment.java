@@ -15,8 +15,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.cs4720project.phasefour.R;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;

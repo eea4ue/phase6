@@ -1,7 +1,5 @@
 package com.cs4720project.phasesix;
 
-import com.cs4720project.phasefour.R;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;

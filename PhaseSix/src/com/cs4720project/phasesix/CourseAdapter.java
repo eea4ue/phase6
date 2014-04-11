@@ -2,8 +2,6 @@ package com.cs4720project.phasesix;
 
 import java.util.ArrayList;
 
-import com.cs4720project.phasefour.R;
-
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
