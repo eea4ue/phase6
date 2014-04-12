@@ -10,6 +10,7 @@
     <string name="create_account">Create Account</string>
     <string name="register">Register</string>
     <string name="username">Username</string>
+    <string name="logout">Log Out</string>
     <string name="username_hint">e.g. aaa123</string>
     <string name="password">Password</string>
     <string name="password_confirm">Confirm Password</string>

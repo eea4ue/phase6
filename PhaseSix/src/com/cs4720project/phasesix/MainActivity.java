@@ -8,7 +8,11 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 //User Projects, Courses, and Tasks can be viewed and managed from here.
 // works with activity_my_home
@@ -43,14 +47,6 @@ public class MainActivity extends FragmentActivity implements
 					.setTabListener(this));
 		}
 
-		// @Override
-		// public boolean onCreateOptionsMenu(Menu menu) {
-		// MenuInflater inflater = getMenuInflater();
-		// inflater.inflate(R.menu.activity_main_actions, menu);
-		//
-		// return super.onCreateOptionsMenu(menu);
-		// }
-
 		/**
 		 * on swiping the viewpager make respective tab selected
 		 * */
@@ -75,7 +71,7 @@ public class MainActivity extends FragmentActivity implements
 		String fragmentName = i.getStringExtra("fragment");
 
 		userName = i.getStringExtra("USER_ID");
-		//Log.e("Test1", "Test1" + fragmentName);
+		// Log.e("Test1", "Test1" + fragmentName);
 		Log.e("Test2", "Test2" + userName);
 
 		if (fragmentName != null && fragmentName.equals("My Schedule")) {
@@ -88,6 +84,29 @@ public class MainActivity extends FragmentActivity implements
 	}
 
 	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.activity_main, menu);
+
+		return super.onCreateOptionsMenu(menu);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// Handle item selection
+		switch (item.getItemId()) {
+		case R.id.about:
+			about();
+			return true;
+		case R.id.logout:
+			logout();
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
+	}
+
+	@Override
 	public void onTabReselected(Tab tab, FragmentTransaction ft) {
 	}
 
@@ -95,8 +114,8 @@ public class MainActivity extends FragmentActivity implements
 	public void onTabSelected(Tab tab, FragmentTransaction ft) {
 		// on tab selected
 		// show respected fragment view
-		Intent i=getIntent();
-		userName=i.getStringExtra("USER_ID");
+		Intent i = getIntent();
+		userName = i.getStringExtra("USER_ID");
 		Log.d("onTabSelected", "fired");
 		viewPager.setCurrentItem(tab.getPosition());
 		((ScheduleFragment) mAdapter.getItem(1)).setUser(userName);
@@ -113,13 +132,33 @@ public class MainActivity extends FragmentActivity implements
 			((ScheduleFragment) mAdapter.getItem(viewPager.getCurrentItem()))
 					.onImageButtonClick(v);
 	}
-	public void onProjectClick(View v){
-		if(viewPager.getCurrentItem()==0)
-			((ProjectsFragment) mAdapter.getItem(viewPager.getCurrentItem())).onProjectClick(v);
-		}
-	public void deleteProjectButton(View v) {
-		if (viewPager.getCurrentItem()==0)
-			((ProjectsFragment) mAdapter.getItem(viewPager.getCurrentItem())).deleteProjectButton(v);
+
+	public void onProjectClick(View v) {
+		if (viewPager.getCurrentItem() == 0)
+			((ProjectsFragment) mAdapter.getItem(viewPager.getCurrentItem()))
+					.onProjectClick(v);
 	}
-	
+
+	public void deleteProjectButton(View v) {
+		if (viewPager.getCurrentItem() == 0)
+			((ProjectsFragment) mAdapter.getItem(viewPager.getCurrentItem()))
+					.deleteProjectButton(v);
+	}
+
+	public void about() {
+		Toast.makeText(getApplicationContext(), "Pepper DevTeam: Amas, Larsen, Seid",
+				Toast.LENGTH_LONG).show();
+	}
+
+	public void logout() {
+		//set UserID to ""
+		userName = "";
+		//launch Splash screen
+		Intent intent = new Intent(MainActivity.this,
+				Splash.class);
+		intent.putExtra("USER_ID", userName);
+		startActivity(intent);
+		
+	}
+
 }

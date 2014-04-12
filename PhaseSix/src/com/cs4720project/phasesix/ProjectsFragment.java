@@ -33,14 +33,13 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-//import com.cs4720project.phasefour.CourseSearch.AddToCourseListTask;
 
 public class ProjectsFragment extends Fragment {
 
 	ArrayList<Project> projectObjectArray = new ArrayList<Project>();
 	ProjectAdapter adapter;
 	private ListView projectTableScrollView;
-	
+
 	private static String projectURL = "http://peppernode.azurewebsites.net/project/view/details/";
 	private static String addNewProjectURL = "http://peppernode.azurewebsites.net/project/add/";
 	private static String deleteProjectURL = "http://peppernode.azurewebsites.net/project/delete/"; // +pid
@@ -49,6 +48,7 @@ public class ProjectsFragment extends Fragment {
 	private static Context context;
 	private static String deleteProjPID;
 	private static String deleteProjPTITLE;
+
 	public void setUser(String user) {
 
 		if (user == null && !tempWorkAround)
@@ -75,7 +75,6 @@ public class ProjectsFragment extends Fragment {
 	}
 
 	@Override
-
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		if (getActivity() != null)
@@ -83,61 +82,74 @@ public class ProjectsFragment extends Fragment {
 		final View rootView = inflater.inflate(R.layout.fragment_project_list,
 				container, false);
 
-		Button addProjectButton = (Button) rootView.findViewById(R.id.addNewProjectButton);
-
+		Button addProjectButton = (Button) rootView
+				.findViewById(R.id.addNewProjectButton);
 
 		addProjectButton.setOnClickListener(new View.OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
-				AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+				AlertDialog.Builder builder = new AlertDialog.Builder(
+						getActivity());
 				LayoutInflater inflater = getActivity().getLayoutInflater();
-				final View view = inflater.inflate(R.layout.dialog_addproject, null);
+				final View view = inflater.inflate(R.layout.dialog_addproject,
+						null);
 				builder.setView(view);
 
 				// Set the positive OK button
 				builder.setPositiveButton("OK",
 						new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog, int which) {
+							public void onClick(DialogInterface dialog,
+									int which) {
 
-								// TODO add project
-								final EditText projectTitleEditText = (EditText) view.findViewById(R.id.projectTitleEditText);
-								String param = projectTitleEditText.getText().toString();
+								final EditText projectTitleEditText = (EditText) view
+										.findViewById(R.id.projectTitleEditText);
+								String param = projectTitleEditText.getText()
+										.toString();
 
 								Context context = getActivity();
-								CharSequence projectCreationErrorText = "Error! Could not create project: "+ param;
+								CharSequence projectCreationErrorText = "Error! Could not create project: "
+										+ param;
 								CharSequence noInputErrorText = "Error! You didn't give your project a title";
 								int duration = Toast.LENGTH_SHORT;
 
 								if (param.length() > 0) {
 									try {
-										String encodedSearch = URLEncoder.encode(param, "UTF-8");
-										String addProjectURL = addNewProjectURL + encodedSearch + "/" + userName;
+										String encodedSearch = URLEncoder
+												.encode(param, "UTF-8");
+										String addProjectURL = addNewProjectURL
+												+ encodedSearch + "/"
+												+ userName;
 										Log.d("param", param);
 										Log.d("addProjectURL", addProjectURL);
-										
-										new AddToProjectListTask().execute(addProjectURL);
-										
-										//new GetCoursesTask().execute(searchURL);
+
+										new AddToProjectListTask()
+												.execute(addProjectURL);
+
+										// new
+										// GetCoursesTask().execute(searchURL);
 									} catch (Exception e) {
-										Toast.makeText(context,projectCreationErrorText,duration).show();
+										Toast.makeText(context,
+												projectCreationErrorText,
+												duration).show();
 										e.printStackTrace();
 									}
 
 								} else
-									Toast.makeText(context, noInputErrorText,duration).show();
+									Toast.makeText(context, noInputErrorText,
+											duration).show();
 							}
 						});
-				
+
 				// Set the negative Cancel button
 				builder.setNegativeButton("Cancel",
-					new DialogInterface.OnClickListener() {
-						public void onClick(DialogInterface dialog, int id) {
-							// if this button is clicked, just close
-							// the dialog box and do nothing
-							dialog.cancel();
-						}
-					});
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog, int id) {
+								// if this button is clicked, just close
+								// the dialog box and do nothing
+								dialog.cancel();
+							}
+						});
 				/*
 				 * Use dialog_addproject.xml edit field:
 				 */
@@ -153,7 +165,8 @@ public class ProjectsFragment extends Fragment {
 
 		// set content of a tab host .setContent(int viewID)
 		// set the my course given default user of kml5aa
-		projectTableScrollView = (ListView) rootView.findViewById(R.id.projectView);
+		projectTableScrollView = (ListView) rootView
+				.findViewById(R.id.projectView);
 		projectObjectArray = new ArrayList<Project>();
 		// adapter = new CourseAdapter(this, courseObjectArray);
 		adapter = new ProjectAdapter(getActivity(), projectObjectArray);
@@ -162,7 +175,13 @@ public class ProjectsFragment extends Fragment {
 		// String username = "kml5aa";
 		// searchURL=searchURL+username;
 
-		TextView userLabel = (TextView) rootView.findViewById(R.id.showUsername);
+		//userName = i.getStringExtra("USER_ID");
+//		Intent intent = new Intent(getActivity(), ProjectsFragment.class);
+//		userName = intent.getStringExtra("USER_ID");
+//		setUser(userName);
+		
+		TextView userLabel = (TextView) rootView
+				.findViewById(R.id.showUsername);
 
 		// Log.d("Projects user",user);
 
@@ -181,8 +200,8 @@ public class ProjectsFragment extends Fragment {
 		return rootView;
 	}
 
-	public void doOnProjectDeleteConfirm(){
-		
+	public void doOnProjectDeleteConfirm() {
+
 	}
 
 	public void deleteProjectButton(View view) {
@@ -193,10 +212,10 @@ public class ProjectsFragment extends Fragment {
 		TextView project_title = (TextView) par
 				.findViewById(R.id.project_title);
 		TextView project_id = (TextView) par.findViewById(R.id.project_id);
-		deleteProjPTITLE= project_title.getText().toString().trim();
+		deleteProjPTITLE = project_title.getText().toString().trim();
 		deleteProjPID = project_id.getText().toString().trim();
-		
-		String EXTRA_MESSAGE =deleteProjPTITLE+deleteProjPID;
+
+		String EXTRA_MESSAGE = deleteProjPTITLE + deleteProjPID;
 		AlertDialog.Builder builder = new AlertDialog.Builder(context);
 		builder.setTitle(EXTRA_MESSAGE);
 		builder.setMessage(R.string.project_delete_confirm);
@@ -206,19 +225,20 @@ public class ProjectsFragment extends Fragment {
 						try {
 							String tempurl = deleteProjectURL + deleteProjPID;
 							Log.d("deleteTerm", tempurl);
-							if (adapter!=null)
-							adapter.remove(new Project(deleteProjPID,null));
+							if (adapter != null)
+								adapter.remove(new Project(deleteProjPID, null));
 							/** EXECUTE !! DELETE PROJECT **/
 							new DeleteProject().execute(tempurl);
 							adapter.notifyDataSetChanged();
-							Toast.makeText(context,
-									"Deleting Project: " + deleteProjPTITLE + " ID: " + deleteProjPID,
+							Toast.makeText(
+									context,
+									"Deleting Project: " + deleteProjPTITLE
+											+ " ID: " + deleteProjPID,
 									Toast.LENGTH_SHORT).show();
 						} catch (Exception e) {
-							Toast.makeText(context,
-									"Error deleting Project",
+							Toast.makeText(context, "Error deleting Project",
 									Toast.LENGTH_LONG).show();
-					
+
 							Log.d("deleteProjectURL Exception", "");
 							e.printStackTrace();
 						}
@@ -232,24 +252,9 @@ public class ProjectsFragment extends Fragment {
 
 		AlertDialog theAlert = builder.create();
 		theAlert.show();
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		//adapter.remove(new Project(pIDString, null));
-		
+
+		// adapter.remove(new Project(pIDString, null));
+
 	}
 
 	public void onProjectClick(View v) {
@@ -257,19 +262,19 @@ public class ProjectsFragment extends Fragment {
 		TextView projectTitle = (TextView) par.findViewById(R.id.project_title);
 		TextView projectID = (TextView) par.findViewById(R.id.project_id);
 
-		//if (isAdded()) {
+		// if (isAdded()) {
 
-			Log.d("Project ID selected:", projectID.getText().toString());
-			Intent intent = new Intent(context, TaskList.class);
-			intent.putExtra("USER_ID", userName);
-			intent.putExtra("PID", projectID.getText().toString());
-			intent.putExtra("P_TITLE", projectTitle.getText().toString());
-			context.startActivity(intent);
-		//}
-		//else
-		//{
-			
-	//	}
+		Log.d("Project ID selected:", projectID.getText().toString());
+		Intent intent = new Intent(context, TaskList.class);
+		intent.putExtra("USER_ID", userName);
+		intent.putExtra("PID", projectID.getText().toString());
+		intent.putExtra("P_TITLE", projectTitle.getText().toString());
+		context.startActivity(intent);
+		// }
+		// else
+		// {
+
+		// }
 	}
 
 	private class GetProjectsTask extends AsyncTask<String, Void, String> {
@@ -296,8 +301,10 @@ public class ProjectsFragment extends Fragment {
 						HttpEntity entity = response.getEntity();
 						InputStream content = entity.getContent();
 						// read the data you got
-						InputStreamReader inputStreamReader = new InputStreamReader(content);
-						BufferedReader reader = new BufferedReader(inputStreamReader);
+						InputStreamReader inputStreamReader = new InputStreamReader(
+								content);
+						BufferedReader reader = new BufferedReader(
+								inputStreamReader);
 						// read one line at a time and append to stringBuilder
 						String lineIn;
 						while ((lineIn = reader.readLine()) != null) {
@@ -308,7 +315,7 @@ public class ProjectsFragment extends Fragment {
 
 						Log.d("STATUS CODE", "!= 200");
 
-				} catch (Exception	e) {
+				} catch (Exception e) {
 					Log.d("Exception", "");
 					e.printStackTrace();
 				}
@@ -318,7 +325,7 @@ public class ProjectsFragment extends Fragment {
 		}
 
 		@Override
-		protected void onPostExecute (String result) {
+		protected void onPostExecute(String result) {
 
 			try {
 
@@ -334,33 +341,34 @@ public class ProjectsFragment extends Fragment {
 
 					project.setProjectID(projectObject.getString("projectID"));
 
-					project.setProjectTitle(projectObject.getString("projectTitle"));
+					project.setProjectTitle(projectObject
+							.getString("projectTitle"));
 
 					if ((Integer.parseInt(projectObject.getString("projectID"))) > lastID) {
 
 						projectObjectArray.add(project);
 
-						lastID = Integer.parseInt(projectObject.getString("projectID"));
+						lastID = Integer.parseInt(projectObject
+								.getString("projectID"));
 					}
 
 				}
 			} catch (JSONException e) {
 				Toast.makeText(getActivity(), "Error: onPostExecute",
-				Toast.LENGTH_SHORT).show();
+						Toast.LENGTH_SHORT).show();
 				e.printStackTrace();
 			}
 
-			// TODO switch | more cases
 			if (projectObjectArray != null) {
 				// update View with found courses
 				adapter.notifyDataSetChanged();
 			} else {
-				Toast.makeText(getActivity(),
-				"Error: no matching courses found", Toast.LENGTH_SHORT).show();
+				Toast.makeText(getActivity(), "Error: no projects found",
+						Toast.LENGTH_SHORT).show();
 			}
 		}
 	}
-	
+
 	private class AddToProjectListTask extends AsyncTask<String, Void, String> {
 
 		@Override
@@ -411,12 +419,10 @@ public class ProjectsFragment extends Fragment {
 			return userIDBuilder.toString();
 		}
 
-		
-		
-		protected void onPostExecute (String result) {
-		projectObjectArray.clear();
-			
-		//new ProjectsFragment();
+		protected void onPostExecute(String result) {
+			projectObjectArray.clear();
+
+			// new ProjectsFragment();
 			try {
 				Log.d("projectURL", projectURL);
 				new GetProjectsTask().execute(projectURL);
@@ -427,10 +433,9 @@ public class ProjectsFragment extends Fragment {
 						Toast.LENGTH_SHORT).show();
 				e.printStackTrace();
 			}
-			
+
 		}
-		
-		
+
 	}
 
 	private class DeleteProject extends AsyncTask<String, Void, String> {

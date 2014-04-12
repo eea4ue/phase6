@@ -66,8 +66,9 @@ public class AccountCreate extends Activity {
 		CharSequence noInputErrorText = "Error! You left the user field empty.";
 		int duration = Toast.LENGTH_LONG;
 
-		Toast.makeText(context, "Creating User: " + usernameString, duration)
+		Toast.makeText(context, "Creating User: " + usernameString, Toast.LENGTH_SHORT)
 				.show();
+		Toast.makeText(context, "Welcome, " + usernameString + "!", duration).show();
 
 		// TODO Passwords / PHASE 5
 		// passwordEditText = (EditText) findViewById(R.id.passwordEditText);
