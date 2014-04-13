@@ -8,6 +8,7 @@
 
     <TextView
         android:id="@+id/userNameTextView"
+        android:fontFamily="sans-serif-light"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/userNameEditText"
@@ -39,6 +40,7 @@
 
     <TextView
         android:id="@+id/passwordTextView"
+        android:fontFamily="sans-serif-light"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/passwordEditText"
@@ -64,6 +66,7 @@
 
     <TextView
         android:id="@+id/passwordConfirmTextView"
+        android:fontFamily="sans-serif-light"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/passwordConfirmEditText"
@@ -76,6 +79,7 @@
 
     <Button
         android:id="@+id/createAccountButton"
+        android:fontFamily="sans-serif-light"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -102,9 +106,9 @@
         android:id="@+id/welcomeTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/userNameTextView"
+        android:layout_above="@+id/userNameTextView"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="30dp"
+        android:fontFamily="sans-serif-light"
         android:gravity="center"
         android:paddingBottom="30dp"
         android:paddingTop="20dp"

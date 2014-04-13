@@ -11,7 +11,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:layout_marginTop="78dp"
-        android:background="@color/orange_faded"
+        android:background="@drawable/white_wall"
         android:padding="5dp"
         android:textColor="@color/black"
         android:textColorHint="@color/black"
@@ -32,6 +32,7 @@
     <EditText
         android:id="@+id/taskTitleEditText"
         android:layout_width="wrap_content"
+        android:fontFamily="sans-serif-light"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_weight="1"
@@ -42,6 +43,7 @@
     <EditText
         android:id="@+id/taskStatusEditText"
         android:layout_width="wrap_content"
+        android:fontFamily="sans-serif-light"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_weight="1"
@@ -51,6 +53,7 @@
 
     <Button
         android:id="@+id/addNewTaskButton"
+        android:fontFamily="sans-serif-light"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="0.35"
@@ -60,6 +63,7 @@
 
     <TextView
         android:id="@+id/textView1"
+        android:fontFamily="sans-serif-light"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
@@ -72,6 +76,7 @@
 
     <TextView
         android:id="@+id/projectTextView"
+        android:fontFamily="sans-serif-light"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/textView1"

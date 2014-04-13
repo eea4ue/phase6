@@ -9,6 +9,7 @@
 
     <TextView
         android:id="@+id/course_id_name"
+        android:fontFamily="sans-serif-light"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/placeholder_short"
@@ -16,6 +17,7 @@
 
     <TextView
         android:id="@+id/sec_num"
+        android:fontFamily="sans-serif-light"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/placeholder_short"
@@ -23,6 +25,7 @@
 
     <TextView
         android:id="@+id/course_num"
+        android:fontFamily="sans-serif-light"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/placeholder_short"
@@ -30,6 +33,7 @@
 
     <TextView
         android:id="@+id/courseInstructorTimeRoom"
+        android:fontFamily="sans-serif-light"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="0.85"

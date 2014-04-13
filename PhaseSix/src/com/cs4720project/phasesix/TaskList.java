@@ -25,6 +25,9 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -132,6 +135,45 @@ public class TaskList extends Activity {
 
 		taskListView.setAdapter(adapter);
 
+	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.activity_main, menu);
+
+		return super.onCreateOptionsMenu(menu);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// Handle item selection
+		switch (item.getItemId()) {
+		case R.id.about:
+			about();
+			return true;
+		case R.id.logout:
+			logout();
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
+	}
+	
+	public void about() {
+		Toast.makeText(getApplicationContext(), "Pepper DevTeam: Amas, Larsen, Seid",
+				Toast.LENGTH_LONG).show();
+	}
+
+	public void logout() {
+		//set UserID to ""
+		user = "";
+		//launch Splash screen
+		Intent intent = new Intent(TaskList.this,
+				Splash.class);
+		intent.putExtra("USER_ID", user);
+		startActivity(intent);
+		
 	}
 
 	// public void setUser(String user) {

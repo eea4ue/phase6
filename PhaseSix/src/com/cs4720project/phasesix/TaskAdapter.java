@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 public class TaskAdapter extends ArrayAdapter<Task> {
 	public TaskAdapter(Context context, ArrayList<Task> tasks) {
-		super(context, R.layout.task_listrow_details, tasks);
+		super(context, R.layout.item_task, tasks);
 	}
 
 	@Override
@@ -22,7 +22,7 @@ public class TaskAdapter extends ArrayAdapter<Task> {
 		// Check if an existing view is being reused, otherwise inflate the view
 		if (convertView == null) {
 			convertView = LayoutInflater.from(getContext()).inflate(
-					R.layout.task_listrow_details, null);
+					R.layout.item_task, null);
 		}
 		// Lookup view for data population
 		TextView taskTextView = (TextView) convertView

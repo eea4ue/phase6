@@ -2,12 +2,14 @@ package com.cs4720project.phasesix;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnFocusChangeListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 public class Splash extends Activity {
 
@@ -19,6 +21,12 @@ public class Splash extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.splash);
 
+//		TextView txtView = (TextView) findViewById(R.id.welcomeTextView);
+//		Typeface myTypeface = Typeface.createFromAsset(
+//		                          this.getAssets(),
+//		                          "font/Robot.otf");
+//		txtView.setTypeface(myTypeface);
+		
 		userNameEditText = (EditText) findViewById(R.id.userNameEditText);
 
 		userNameEditText.setOnFocusChangeListener(new OnFocusChangeListener() {

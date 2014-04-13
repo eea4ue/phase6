@@ -16,9 +16,9 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@drawable/pepper"
+        android:icon="@drawable/scheduler"
         android:label="@string/app_name"
-        android:logo="@drawable/pepper"
+        android:logo="@drawable/scheduler"
         android:theme="@style/AppTheme" >
         <activity
             android:name="com.cs4720project.phasesix.Splash"
