@@ -26,7 +26,13 @@ public class MainActivity extends FragmentActivity implements
 	private String userName;
 	// Tab titles
 	private String[] tabs = { "My Projects", "My Schedule" };
-
+	protected void onResumeFragments(){
+		super.onResumeFragments();
+		if(mAdapter.getCount()>=1){
+			if(((ScheduleFragment)mAdapter.getItem(1)).adapter!=null)
+				((ScheduleFragment)mAdapter.getItem(1)).adapter.notifyDataSetChanged();
+		}
+	}
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);

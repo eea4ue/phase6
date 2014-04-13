@@ -37,7 +37,7 @@ import android.widget.Toast;
 public class ProjectsFragment extends Fragment {
 
 	ArrayList<Project> projectObjectArray = new ArrayList<Project>();
-	ProjectAdapter adapter;
+	public ProjectAdapter adapter;
 	private ListView projectTableScrollView;
 
 	private static String projectURL = "http://peppernode.azurewebsites.net/project/view/details/";
@@ -300,6 +300,7 @@ public class ProjectsFragment extends Fragment {
 
 						HttpEntity entity = response.getEntity();
 						InputStream content = entity.getContent();
+						
 						// read the data you got
 						InputStreamReader inputStreamReader = new InputStreamReader(
 								content);
@@ -310,7 +311,8 @@ public class ProjectsFragment extends Fragment {
 						while ((lineIn = reader.readLine()) != null) {
 							courseIDBuilder.append(lineIn);
 						}
-
+						inputStreamReader.close();
+						Log.d("Output from Project site:",courseIDBuilder.toString());
 					} else
 
 						Log.d("STATUS CODE", "!= 200");
@@ -328,7 +330,7 @@ public class ProjectsFragment extends Fragment {
 		protected void onPostExecute(String result) {
 
 			try {
-
+				
 				JSONArray projectArray = new JSONArray(result);
 				Log.d("JSONArray", projectArray.toString());
 
@@ -402,7 +404,7 @@ public class ProjectsFragment extends Fragment {
 						while ((lineIn = reader.readLine()) != null) {
 							userIDBuilder.append(lineIn);
 						}
-
+						inputStreamReader.close();
 						// // THEN TAKE USER TO MAIN ACTIVITY
 						// Intent intent = new Intent(MainActivity.this,
 						// MainActivity.class);
@@ -471,7 +473,8 @@ public class ProjectsFragment extends Fragment {
 						while ((lineIn = reader.readLine()) != null) {
 							pIDBuilder.append(lineIn);
 						}
-
+						inputStreamReader.close();
+						
 						// // THEN TAKE USER TO MAIN ACTIVITY
 						// Intent intent = new Intent(MainActivity.this,
 						// MainActivity.class);

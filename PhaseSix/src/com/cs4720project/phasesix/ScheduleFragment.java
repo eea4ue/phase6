@@ -39,7 +39,7 @@ public class ScheduleFragment extends Fragment {
 	static String userName;
 	static boolean tempWorkAround = false;
 	ArrayList<Course> userCourses = new ArrayList<Course>();
-	CourseListAdapter adapter;
+	public CourseListAdapter adapter;
 
 	public void setUser(String user) {
 		// Log.d("from setUser",user);
@@ -54,7 +54,7 @@ public class ScheduleFragment extends Fragment {
 			Log.d("from setUser in SchedulesFrag", userName);
 		}
 	}
-
+	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -119,7 +119,7 @@ public class ScheduleFragment extends Fragment {
 			StringBuilder courseIDBuilder = new StringBuilder();
 
 			for (String searchURL : URL) {
-				HttpClient httpClient = new DefaultHttpClient();
+				HttpClient httpClient = HTTPClients.getDefaultHttpClient();
 				try {
 					HttpGet httpGet = new HttpGet(searchURL);
 					HttpResponse response = httpClient.execute(httpGet);
@@ -128,7 +128,7 @@ public class ScheduleFragment extends Fragment {
 					if (searchStatus.getStatusCode() == 200) {
 						HttpEntity entity = response.getEntity();
 						InputStream content = entity.getContent();
-
+						
 						// read the data you got
 						InputStreamReader inputStreamReader = new InputStreamReader(
 								content);
@@ -140,6 +140,7 @@ public class ScheduleFragment extends Fragment {
 						while ((lineIn = reader.readLine()) != null) {
 							courseIDBuilder.append(lineIn);
 						}
+						inputStreamReader.close();
 					} else
 						Log.d("STATUS CODE", "!= 200");
 
@@ -154,6 +155,7 @@ public class ScheduleFragment extends Fragment {
 		@Override
 		protected void onPostExecute(String result) {
 			try {
+				Log.d("Output from Course Site:",result);
 				JSONArray courseArray = new JSONArray(result);
 				Log.d("JSONArray", courseArray.toString());
 				for (int i = 0; i < courseArray.length(); i++) {
@@ -228,7 +230,7 @@ public class ScheduleFragment extends Fragment {
 			StringBuilder userIDBuilder = new StringBuilder();
 
 			for (String deleteURL : URL) {
-				HttpClient httpClient = new DefaultHttpClient();
+				HttpClient httpClient = HTTPClients.getDefaultHttpClient();
 				try {
 					HttpGet httpGet = new HttpGet(deleteURL);
 					HttpResponse response = httpClient.execute(httpGet);
@@ -249,6 +251,7 @@ public class ScheduleFragment extends Fragment {
 						while ((lineIn = reader.readLine()) != null) {
 							userIDBuilder.append(lineIn);
 						}
+						inputStreamReader.close();
 						Log.d("Output from site", userIDBuilder.toString());
 						// // THEN TAKE USER TO MAIN ACTIVITY
 						// Intent intent = new Intent(MainActivity.this,
