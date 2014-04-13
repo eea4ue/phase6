@@ -20,9 +20,9 @@ public class TabsPagerAdapter extends FragmentPagerAdapter {
 		case 1:
 			//My Schedule/Courses fragment
 			return new ScheduleFragment();
-//		case 2:
+		case 2:
 //			//My Meetings fragment
-//			return new MeetingsFragment(); //DONT FORGET TO INCREMENT COUNT BELOW
+			return new MeetingsFragment();
 		}
 
 		return null;
@@ -31,7 +31,7 @@ public class TabsPagerAdapter extends FragmentPagerAdapter {
 	@Override
 	public int getCount() {
 		// get item count - equal to number of tabs
-		return 2;
+		return 3;
 	}
 
 }

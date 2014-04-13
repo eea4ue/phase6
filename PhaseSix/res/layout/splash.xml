@@ -3,7 +3,7 @@
     android:id="@+id/RelativeLayout1"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background"
+    android:background="@drawable/retina_wood"
     android:layout_gravity="center_vertical|center_horizontal" >
 
     <TextView
@@ -23,6 +23,7 @@
 
     <EditText
         android:id="@+id/userNameEditText"
+        android:fontFamily="sans-serif-light"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/welcomeTextView"
@@ -40,6 +41,7 @@
 
     <EditText
         android:id="@+id/passwordEditText"
+        android:fontFamily="sans-serif-light"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/userNameEditText"
@@ -56,6 +58,7 @@
 
     <Button
         android:id="@+id/loginButton"
+        android:fontFamily="sans-serif-light"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/passwordEditText"
@@ -69,6 +72,7 @@
 
     <TextView
         android:id="@+id/orTextView"
+        android:fontFamily="sans-serif-light"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/loginButton"
@@ -78,6 +82,7 @@
 
     <Button
         android:id="@+id/registerButton"
+        android:fontFamily="sans-serif-light"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/loginButton"
