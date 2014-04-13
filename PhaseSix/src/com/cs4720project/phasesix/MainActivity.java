@@ -25,7 +25,8 @@ public class MainActivity extends FragmentActivity implements
 	private ActionBar actionBar;
 	private String userName;
 	// Tab titles
-	private String[] tabs = { "My Projects", "My Schedule" };
+
+private String[] tabs = { "My Projects", "My Schedule", "My Meetings"};
 	protected void onResumeFragments(){
 		super.onResumeFragments();
 		if(mAdapter.getCount()>=1){
@@ -78,12 +79,13 @@ public class MainActivity extends FragmentActivity implements
 
 		userName = i.getStringExtra("USER_ID");
 		// Log.e("Test1", "Test1" + fragmentName);
-		Log.e("Test2", "Test2" + userName);
+		Log.e("Test2", "Test2: " + userName);
 
 		if (fragmentName != null && fragmentName.equals("My Schedule")) {
 			viewPager.setCurrentItem(1); // because 'My Schedule' is tab index 1
 		}
 		Log.d("onCreate", "fired");
+		((MeetingsFragment) mAdapter.getItem(2)).setUser(userName);
 		((ScheduleFragment) mAdapter.getItem(1)).setUser(userName);
 		((ProjectsFragment) mAdapter.getItem(0)).setUser(userName);
 		((ProjectsFragment) mAdapter.getItem(0)).setActivity(this);
@@ -124,6 +126,7 @@ public class MainActivity extends FragmentActivity implements
 		userName = i.getStringExtra("USER_ID");
 		Log.d("onTabSelected", "fired");
 		viewPager.setCurrentItem(tab.getPosition());
+		((MeetingsFragment) mAdapter.getItem(2)).setUser(userName);
 		((ScheduleFragment) mAdapter.getItem(1)).setUser(userName);
 		((ProjectsFragment) mAdapter.getItem(0)).setUser(userName);
 		((ProjectsFragment) mAdapter.getItem(0)).setActivity(this);
