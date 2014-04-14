@@ -50,6 +50,10 @@
             android:label="@string/my_schedule" >
         </activity>
         <activity
+            android:name="com.cs4720project.phasesix.MeetingsFragment"
+            android:label="@string/meetings" >
+        </activity>
+        <activity
             android:name="com.cs4720project.phasesix.TaskList"
             android:label="@string/tasks" >
         </activity>
