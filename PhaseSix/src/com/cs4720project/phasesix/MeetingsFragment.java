@@ -204,7 +204,10 @@ public class MeetingsFragment extends Fragment implements
 		//hard code in a working url
 		
 		String library = libSpinner.getSelectedItem().toString();
-		String section = (libraryHM.get(sectionSpinner.getSelectedItem().toString())).toString();
+		String section = sectionSpinner.getSelectedItem().toString();
+		if (section.length()>0){
+			section = (libraryHM.get(section)).toString();
+		}
 		String time = timeSpinner.getSelectedItem().toString();
 		if (time.length()>0){
 			time = time.substring(0,2);
