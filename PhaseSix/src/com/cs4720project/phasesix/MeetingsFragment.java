@@ -3,6 +3,7 @@ package com.cs4720project.phasesix;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.HashMap;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -12,6 +13,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 
@@ -43,6 +45,10 @@ public class MeetingsFragment extends Fragment implements
 	Spinner timeSpinner;
 	Spinner daySpinner;
 	TextView resultsTextView;
+	
+	HashMap libraryHM = new HashMap();
+	
+	
 
 	static String libTimeDay = "http://plato.cs.virginia.edu/~pel5xq/library/";
 
@@ -52,7 +58,24 @@ public class MeetingsFragment extends Fragment implements
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-
+		
+		/*
+		 * Set up the hash map of library, section url codes
+		 */
+		libraryHM.put("East Wing", "EastWing");
+		libraryHM.put("West Wing", "WestWing");
+		libraryHM.put("McGregor Room", "McGregor");
+		libraryHM.put("Cafe", "Cafe");
+		libraryHM.put("Reading Room", "Reading");
+		libraryHM.put("Stacks", "Stacks");
+		libraryHM.put("1st Floor", "1");
+		libraryHM.put("2nd Floor", "2");
+		libraryHM.put("3rd Floor", "3");
+		libraryHM.put("4th Floor", "4");
+		libraryHM.put("5th Floor", "5");
+		libraryHM.put("Computer Lab", "CompLab");
+		
+		
 		View rootView = inflater.inflate(R.layout.fragment_meetings, container,
 				false);
 
@@ -126,7 +149,9 @@ public class MeetingsFragment extends Fragment implements
 				//Esteban
 				try {
 					Log.d("searchTerm", libTimeDay);
-					new GetDetailsTask().execute(libTimeDay);
+					Log.d("Library URL", libraryURL);
+					new GetDetailsTask().execute(libraryURL);
+					//new GetDetailsTask().execute(libTimeDay);
 				} catch (Exception e) {
 					Log.d("libTimeDay Exception", "");
 					e.printStackTrace();
@@ -178,7 +203,101 @@ public class MeetingsFragment extends Fragment implements
 		String url = "";
 		//hard code in a working url
 		
-		url="http://plato.cs.virginia.edu/~pel5xq/library/clark/day";
+		String library = libSpinner.getSelectedItem().toString();
+		String section = (libraryHM.get(sectionSpinner.getSelectedItem().toString())).toString();
+		String time = timeSpinner.getSelectedItem().toString();
+		if (time.length()>0){
+			time = time.substring(0,2);
+		}
+		String fullday = daySpinner.getSelectedItem().toString();
+		String day="";
+		
+		if (fullday.equals("Sunday")){
+			day=1+"";
+		}
+		else if (fullday.equals("Monday")){
+			day=2+"";
+		}
+		else if (fullday.equals("Tuesday")){
+			day=3+"";
+		}
+		else if (fullday.equals("Wednesday")){
+			day=4+"";
+		}
+		else if (fullday.equals("Thursday")){
+			day=5+"";
+		}
+		else if (fullday.equals("Friday")){
+			day=6+"";
+		}
+		else if (fullday.equals("Saturday")){
+			day=7+"";
+		}
+		
+		String infoSelected = library + ", " + section + ", "+time+", "+day;
+		Log.d("Inputs Selected", infoSelected);
+		
+		/*
+		 * Logic: given default library
+		 * section
+				day
+				timespan
+					day
+			timespan
+				day
+			day
+
+		 */
+		if (section.length()>0){
+			if ((day.length()>0) && (time.length()==0)){
+				//lib, section, day
+				//http://plato.cs.virginia.edu/~pel5xq/library/@lib/section/@sec/day/@day 
+				url = "http://plato.cs.virginia.edu/~pel5xq/library/"+library+"/section/"+section+"/day/"+day;
+			}
+			else if (time.length()>0){
+				if (day.length()>0){
+					//lib, section, time, day
+					//http://plato.cs.virginia.edu/~pel5xq/library/@lib/section/@sec/timespan/@minutes/day/@day 
+					url = "http://plato.cs.virginia.edu/~pel5xq/library/"+library+"/section/"+section+"/timespan/"+time+"/day/"+day ;
+				}
+				else{
+					//lib, section, time
+					//http://plato.cs.virginia.edu/~pel5xq/library/@lib/section/@sec/timespan/@minutes
+					//if empty: http://plato.cs.virginia.edu/~pel5xq/library/@lib/section/@sec/timespan/@minutes/day
+					url="http://plato.cs.virginia.edu/~pel5xq/library/"+library+"/section/"+section+"/timespan/"+time;
+				}
+			}
+			else{
+				//lib, section
+				//http://plato.cs.virginia.edu/~pel5xq/library/@lib/section/@sec/day 
+				url="http://plato.cs.virginia.edu/~pel5xq/library/"+library+"/section/"+section+"/day";
+			}
+		}
+		else if (time.length()>0){
+			if (day.length()>0){
+				//lib, time, day
+				//http://plato.cs.virginia.edu/~pel5xq/library/@lib/timespan/@minutes/day/@day
+				url="http://plato.cs.virginia.edu/~pel5xq/library/"+library+"/timespan/"+time+"/day/"+day;
+			}
+			else{
+				//lib, time
+				//http://plato.cs.virginia.edu/~pel5xq/library/@lib/timespan/@minutes 
+				url="http://plato.cs.virginia.edu/~pel5xq/library/"+library+"/timespan/"+time;
+			}
+		}
+		else if (day.length()>0){
+			//lib, day
+			//http://plato.cs.virginia.edu/~pel5xq/library/@lib/day/@day 
+			url="http://plato.cs.virginia.edu/~pel5xq/library/"+library+"/day/"+day;
+		}
+		else{
+			//lib
+			//http://plato.cs.virginia.edu/~pel5xq/library/@lib/day 
+			url="http://plato.cs.virginia.edu/~pel5xq/library/"+library+"/day";
+		}
+		
+		
+		Log.d("Library Search URL", url);
 				
 		return url;
 	}
@@ -385,7 +504,20 @@ public class MeetingsFragment extends Fragment implements
 		protected void onPostExecute(String result) {
 
 			// adapter.notifyDataSetChanged();
-			resultsTextView.setText(result);
+			//resultsTextView.setText(result);
+			
+			JSONObject statusObject;
+			try {
+				statusObject = new JSONObject(result);
+				String noise = statusObject.getString("noise");
+				String crowd = statusObject.getString("crowd");
+				resultsTextView.setText("Noise: "+noise + " and Crowd: "+crowd);
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			
 		}
 
 	}
