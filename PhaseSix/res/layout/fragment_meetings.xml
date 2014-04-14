@@ -94,4 +94,58 @@
         android:fontFamily="sans-serif-light"
         android:text="@string/clear" />
 
+    <ProgressBar
+        android:id="@+id/progressNoise"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="24dp"
+        android:layout_alignLeft="@+id/resultsTextView"
+        android:layout_below="@+id/resultsTextView"
+        android:layout_marginTop="40dp"
+        android:layout_toLeftOf="@+id/userNametextView"
+        android:max="@integer/ten"
+        android:visibility="visible" />
+    
+    <ProgressBar
+        android:id="@+id/progressCrowd"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="24dp"
+        android:layout_alignRight="@+id/resultsTextView"
+        android:layout_below="@+id/resultsTextView"
+        android:layout_marginTop="40dp"
+        android:layout_toRightOf="@+id/userNametextView"
+        android:max="@integer/ten"
+        android:visibility="visible" />
+
+    <TextView
+        android:id="@+id/noiseLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/progressNoise"
+        android:layout_below="@+id/resultsTextView"
+        android:layout_marginLeft="227dp"
+        android:text="@string/noiseLabel"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+    
+    <TextView
+        android:id="@+id/crowdLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/progressCrowd"
+        android:layout_below="@+id/resultsTextView"
+        android:layout_marginLeft="227dp"
+        android:text="@string/crowdLabel"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <ProgressBar
+        android:id="@+id/ProgressBar01"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="24dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:max="@integer/ten"
+        android:visibility="visible" />
+
 </RelativeLayout>

@@ -145,5 +145,7 @@
         <item>Friday</item>
         <item>Saturday</item>
     </string-array>
+        <string name="noiseLabel">Noise Level</string>
+        <string name="crowdLabel">Crowd Level</string>
 
 </resources>

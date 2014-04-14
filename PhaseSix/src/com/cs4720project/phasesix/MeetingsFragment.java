@@ -30,6 +30,7 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -45,6 +46,8 @@ public class MeetingsFragment extends Fragment implements
 	Spinner timeSpinner;
 	Spinner daySpinner;
 	TextView resultsTextView;
+	ProgressBar progressNoise;
+	ProgressBar progressCrowd;
 	
 	HashMap libraryHM = new HashMap();
 	HashMap dayHM = new HashMap();
@@ -92,6 +95,9 @@ public class MeetingsFragment extends Fragment implements
 		resultsTextView = (TextView) rootView
 				.findViewById(R.id.resultsTextView);
 
+		progressNoise = (ProgressBar) rootView.findViewById(R.id.progressNoise);
+		progressCrowd = (ProgressBar) rootView.findViewById(R.id.progressCrowd);
+		
 		Context context = getActivity();
 		spinners = (LinearLayout) rootView.findViewById(R.id.spinners);
 
@@ -504,8 +510,24 @@ public class MeetingsFragment extends Fragment implements
 			JSONObject statusObject;
 			try {
 				statusObject = new JSONObject(result);
+				
 				String noise = statusObject.getString("noise");
+				int noiseVal=0;
+				if (noise.length()>1){
+					String[] noiseDec = noise.split("\\.");
+					noiseVal = Integer.parseInt(noiseDec[0]);
+				}
+				progressNoise.setProgress(noiseVal);
+				
 				String crowd = statusObject.getString("crowd");
+				int crowdVal=0;
+				if (crowd.length()>1){
+					String[] crowdDec = noise.split("\\.");
+					crowdVal = Integer.parseInt(crowdDec[0]);
+				}
+				progressCrowd.setProgress(crowdVal);
+				
+				
 				resultsTextView.setText("Noise: "+noise + " and Crowd: "+crowd);
 			} catch (JSONException e) {
 				// TODO Auto-generated catch block
