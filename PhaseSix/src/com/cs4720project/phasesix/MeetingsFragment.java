@@ -96,6 +96,7 @@ public class MeetingsFragment extends Fragment implements
 				.findViewById(R.id.resultsTextView);
 
 		progressNoise = (ProgressBar) rootView.findViewById(R.id.progressNoise);
+		
 		progressCrowd = (ProgressBar) rootView.findViewById(R.id.progressCrowd);
 		
 		Context context = getActivity();
@@ -194,7 +195,6 @@ public class MeetingsFragment extends Fragment implements
 				Toast.makeText(getActivity(),
 						"Please select new criteria above.", Toast.LENGTH_SHORT)
 						.show();
-
 			}
 		});
 
@@ -529,7 +529,7 @@ public class MeetingsFragment extends Fragment implements
 				String crowd = statusObject.getString("crowd");
 				int crowdVal=0;
 				if (crowd.length()>1){
-					String[] crowdDec = noise.split("\\.");
+					String[] crowdDec = crowd.split("\\.");
 					crowdVal = Integer.parseInt(crowdDec[0]);
 				}
 				progressCrowd.setProgress(crowdVal);

@@ -104,7 +104,9 @@
         android:layout_marginTop="40dp"
         android:layout_toLeftOf="@+id/userNametextView"
         android:max="@integer/ten"
-        android:visibility="visible" />
+        android:visibility="visible" 
+     
+        />
     
     <ProgressBar
         android:id="@+id/progressCrowd"
