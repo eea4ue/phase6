@@ -492,7 +492,15 @@ public class TaskList extends Activity {
 		// ViewGroup par2 = (ViewGroup) (par).getParent();
 		final TextView taskTextView = (TextView) findViewById(R.id.taskTextView);
 		final TextView taskIDTextView = (TextView) findViewById(R.id.taskIDTextView);
-		final String taskID = taskIDTextView.getText().toString();
+		
+		/*
+		 * ViewGroup par = (ViewGroup) v.getParent();
+		TextView projectTitle = (TextView) par.findViewById(R.id.project_title);
+		 */
+		ViewGroup par = (ViewGroup) view.getParent();
+		TextView taskIDView = (TextView) par.findViewById(R.id.taskIDTextView);
+		final String taskID = taskIDView.getText().toString();
+		//final String taskID = taskIDTextView.getText().toString();
 				
 		AlertDialog.Builder builder = new AlertDialog.Builder(TaskList.this);
 		LayoutInflater inflater = TaskList.this.getLayoutInflater();
