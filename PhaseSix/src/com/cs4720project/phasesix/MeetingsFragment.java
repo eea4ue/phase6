@@ -47,6 +47,7 @@ public class MeetingsFragment extends Fragment implements
 	TextView resultsTextView;
 	
 	HashMap libraryHM = new HashMap();
+	HashMap dayHM = new HashMap();
 	
 	
 
@@ -74,6 +75,13 @@ public class MeetingsFragment extends Fragment implements
 		libraryHM.put("4th Floor", "4");
 		libraryHM.put("5th Floor", "5");
 		libraryHM.put("Computer Lab", "CompLab");
+		dayHM.put("Sunday", 1);
+		dayHM.put("Monday", 2);
+		dayHM.put("Tuesday", 3);
+		dayHM.put("Wednesday", 4);
+		dayHM.put("Thursday", 5);
+		dayHM.put("Friday", 6);
+		dayHM.put("Saturday", 7);
 		
 		
 		View rootView = inflater.inflate(R.layout.fragment_meetings, container,
@@ -204,6 +212,11 @@ public class MeetingsFragment extends Fragment implements
 		//hard code in a working url
 		
 		String library = libSpinner.getSelectedItem().toString();
+		// didn't add all libraries to hashmap
+		if (library.equals("Commerce School")){
+			library="Commerce";
+		}
+		
 		String section = sectionSpinner.getSelectedItem().toString();
 		if (section.length()>0){
 			section = (libraryHM.get(section)).toString();
@@ -212,30 +225,11 @@ public class MeetingsFragment extends Fragment implements
 		if (time.length()>0){
 			time = time.substring(0,2);
 		}
-		String fullday = daySpinner.getSelectedItem().toString();
-		String day="";
+		String day = daySpinner.getSelectedItem().toString();
+		if (day.length()>0){
+			day = (dayHM.get(day)).toString();
+		}
 		
-		if (fullday.equals("Sunday")){
-			day=1+"";
-		}
-		else if (fullday.equals("Monday")){
-			day=2+"";
-		}
-		else if (fullday.equals("Tuesday")){
-			day=3+"";
-		}
-		else if (fullday.equals("Wednesday")){
-			day=4+"";
-		}
-		else if (fullday.equals("Thursday")){
-			day=5+"";
-		}
-		else if (fullday.equals("Friday")){
-			day=6+"";
-		}
-		else if (fullday.equals("Saturday")){
-			day=7+"";
-		}
 		
 		String infoSelected = library + ", " + section + ", "+time+", "+day;
 		Log.d("Inputs Selected", infoSelected);
