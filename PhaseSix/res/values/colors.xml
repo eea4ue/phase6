@@ -8,4 +8,5 @@
     <color name="red">#FF4040</color>
     <color name="black">#000000</color>
     <color name="green">#93C572</color>
+    <color name="translucent_white">#70ffffff</color>
 </resources>

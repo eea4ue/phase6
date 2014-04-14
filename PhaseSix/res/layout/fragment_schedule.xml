@@ -2,7 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal" >
+    android:orientation="horizontal"
+    android:background="@drawable/retina_wood" >
 
     <ListView
         android:id="@+id/userCourseList"
@@ -11,7 +12,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:layout_marginTop="79dp"
-        android:background="@color/green"
+        android:background="@color/translucent_white"
         android:padding="5dp"
         android:textColor="@color/black"
         android:textColorHint="@color/black"

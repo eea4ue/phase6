@@ -3,8 +3,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal"
-    android:background="@drawable/white_wall" >
-
+    android:background="@drawable/retina_wood"
+    >
+    
     <TextView
         android:id="@+id/resultsTextView"
         android:layout_width="wrap_content"
@@ -16,7 +17,9 @@
         android:layout_marginLeft="100dp"
         android:layout_marginRight="100dp"
         android:layout_marginTop="100dp"
-        android:background="@color/grey"
+        
+        
+        android:background="#70ffffff"
         android:fontFamily="sans-serif"
         android:gravity="center"
         android:paddingBottom="20dp"
@@ -44,8 +47,10 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginTop="75dp"
-        android:background="@color/eggshell"
+        android:background="#70ffffff"
         android:orientation="horizontal" >
+        <!--  
+        android:background="@color/eggshell" -->
 
         <Spinner
             android:id="@+id/libSpinner"

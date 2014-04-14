@@ -2,7 +2,8 @@
     android:id="@+id/RelativeLayout1"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:background="@drawable/retina_wood" >
 
     <EditText
         android:id="@+id/courseIDEditText"
@@ -45,7 +46,7 @@
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/searchButton"
         android:layout_marginTop="38dp"
-        android:background="@color/green"
+        android:background="@color/translucent_white"
         android:padding="5dp"
         android:textColor="@color/black"
         android:textColorHint="@color/black"
