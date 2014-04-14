@@ -79,7 +79,6 @@
     <string name="project_delete_confirm">Are you sure you want to delete this Project?</string>
 
     <string-array name="lib_array">
-        <item></item>
         <item>Alderman</item>
         <item>Clark</item>
         <item>Clemons</item>
@@ -123,9 +122,11 @@
         <item>5th Floor</item>
     </string-array>
     <string-array name="thornton_array">
+        <item></item>
         <item>Stacks</item>
     </string-array>
     <string-array name="wilsdorf_array">
+        <item></item>
         <item>Cafe</item>
     </string-array>
 

@@ -2,7 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal" >
+    android:orientation="horizontal"
+    android:background="@drawable/backrepeat" >
 
     <TextView
         android:id="@+id/resultsTextView"
@@ -11,8 +12,11 @@
         android:layout_alignLeft="@+id/spinners"
         android:layout_alignRight="@+id/spinners"
         android:layout_below="@+id/spinners"
-        android:layout_marginTop="162dp"
-        android:background="@color/orange_faded"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="100dp"
+        android:layout_marginRight="100dp"
+        android:layout_marginTop="100dp"
+        android:background="@color/grey"
         android:fontFamily="sans-serif"
         android:gravity="center"
         android:paddingBottom="20dp"
@@ -37,8 +41,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/userNametextView"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
         android:layout_marginTop="75dp"
         android:background="@color/eggshell"
         android:orientation="horizontal" >
@@ -78,7 +82,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/resultsTextView"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="78dp"
+        android:layout_marginTop="90dp"
         android:fontFamily="sans-serif-light"
         android:gravity="center"
         android:text="@string/submit" />
@@ -137,15 +141,5 @@
         android:layout_marginLeft="227dp"
         android:text="@string/crowdLabel"
         android:textAppearance="?android:attr/textAppearanceMedium" />
-
-    <ProgressBar
-        android:id="@+id/ProgressBar01"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="24dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:max="@integer/ten"
-        android:visibility="visible" />
 
 </RelativeLayout>
