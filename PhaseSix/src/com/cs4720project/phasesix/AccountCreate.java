@@ -4,13 +4,21 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
 import org.apache.http.StatusLine;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.protocol.HTTP;
+import org.apache.http.util.EntityUtils;
 
 import android.app.Activity;
 import android.content.Context;
@@ -58,7 +66,7 @@ public class AccountCreate extends Activity {
 	public void addUser(View view) {
 
 		userNameEditText = (EditText) findViewById(R.id.userNameEditText);
-
+		passwordEditText = (EditText)findViewById(R.id.passwordEditText);
 		usernameString = userNameEditText.getText().toString();
 		Context context = getApplicationContext();
 		CharSequence userCreationErrorText = "Error! Could not create user: "
@@ -84,7 +92,9 @@ public class AccountCreate extends Activity {
 
 				/*** EXECUTE ***/
 				new AddUserTask().execute(searchURL);
-
+				new LogoutTask().execute("http://plato.cs.virginia.edu/~cs4720s14pepper/logout.php");
+			
+			
 			} catch (Exception e) {
 				Toast.makeText(context, userCreationErrorText, duration).show();
 				e.printStackTrace();
@@ -108,8 +118,13 @@ public class AccountCreate extends Activity {
 			for (String searchURL : URL) {
 				HttpClient httpClient = HTTPClients.getDefaultHttpClient();
 				try {
-					HttpGet httpGet = new HttpGet(searchURL);
-					HttpResponse response = httpClient.execute(httpGet);
+					HttpPost httpPost = new HttpPost(searchURL);
+					List<NameValuePair> pass = new ArrayList<NameValuePair>(2);
+					//Log.d("Password Plaintext:",passwordEditText.getText().toString());
+					pass.add(new BasicNameValuePair("PASSWORD", passwordEditText.getText().toString()));
+					//Log.d("Inside keypair",pass.get(0).getValue());
+					httpPost.setEntity(new UrlEncodedFormEntity(pass));
+					HttpResponse response = httpClient.execute(httpPost);
 					StatusLine searchStatus = response.getStatusLine();
 
 					if (searchStatus.getStatusCode() == 200) {
@@ -127,14 +142,10 @@ public class AccountCreate extends Activity {
 						while ((lineIn = reader.readLine()) != null) {
 							userIDBuilder.append(lineIn);
 						}
-
-						Intent intent = new Intent(AccountCreate.this,
-								MainActivity.class);
-						intent.putExtra("USER_ID", usernameString);
-						startActivity(intent);
+						inputStreamReader.close();
 
 					} else
-						Log.d("STATUS CODE ERROR", "!= 200");
+						Log.d("STATUS CODE ERROR !=200", String.valueOf(searchStatus.getStatusCode()));
 				} catch (Exception e) {
 					Log.d("Exception", "httpClient");
 					e.printStackTrace();
@@ -145,5 +156,45 @@ public class AccountCreate extends Activity {
 		}
 
 	}
+	private class LogoutTask extends AsyncTask<String, Void, String> {
+
+		@Override
+		protected void onPreExecute() {
+		}
+
+		@Override
+		protected String doInBackground(String... URL) {
+
+			
+			for (String logoutURL : URL) {
+				HttpClient httpClient = new DefaultHttpClient();
+				try {
+					HttpGet httpGet = new HttpGet(logoutURL);
+					HttpResponse response = httpClient.execute(httpGet);
+					StatusLine searchStatus = response.getStatusLine();
+					InputStream is = response.getEntity().getContent();
+					is.close();
+					if (searchStatus.getStatusCode() == 200) {
+						HTTPClients.clearClient();
+						
+					} else
+						Log.d("STATUS CODE ERROR", "!= 200");
+				} catch (Exception e) {
+					Log.d("Exception", "httpClient");
+					e.printStackTrace();
+				}
+
+			}
+			return "Completed";
+		}
+		protected void onPostExecute(String result){
+			HTTPClients.clearClient();
+			Intent intent = new Intent(AccountCreate.this,
+					Splash.class);
+			intent.putExtra("USER_ID", usernameString);
+			startActivity(intent);
+		}
+	}
+
 
 }

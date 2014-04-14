@@ -16,6 +16,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.util.EntityUtils;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -34,7 +35,6 @@ public class Splash extends Activity {
 	static String USER_ID = "";
 	EditText userNameEditText;
 	static String authURL = "http://plato.cs.virginia.edu/~cs4720s14pepper/auth.php";
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -63,12 +63,10 @@ public class Splash extends Activity {
 		loginButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				Intent loginIntent = new Intent(Splash.this, MainActivity.class);
-				loginIntent.putExtra("USER_ID", userNameEditText.getText()
-						.toString());
-				new AuthenticateTask().execute(authURL);
+				new AuthenticateTask(false).execute(authURL);
 				//loginIntent.putExtra("session_id", )
-				startActivity(loginIntent);
+				finish();
+				
 			}
 
 		});
@@ -76,36 +74,52 @@ public class Splash extends Activity {
 		registerButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				Intent registerIntent = new Intent(Splash.this,
-						AccountCreate.class);
-				registerIntent.putExtra("USER_ID", userNameEditText.getText()
-						.toString());
-				startActivity(registerIntent);
+								new AuthenticateTask(true).execute(authURL);
+								finish();
 			}
 
 		});
 
 	}
 	private class AuthenticateTask extends AsyncTask<String, Void, String> {
-
+		private boolean admin;
+		private AuthenticateTask(boolean ad){
+			super();
+			admin=ad;
+			
+		}
 		@Override
 		protected void onPreExecute() {
 		}
 
 		@Override
 		protected String doInBackground(String... URL) {
+			
 			EditText user = (EditText) findViewById(R.id.userNameEditText);
 			EditText pass = (EditText) findViewById(R.id.passwordEditText);
 			
 			StringBuilder userIDBuilder = new StringBuilder();
-
+				String username="";
+				String password="";
+			if(admin)
+			{
+				username="admin";
+				password="1234";
+				Log.d("Admin attempt","Initiated");
+			}
+			else
+			{
+				username=user.getText().toString();
+				password=pass.getText().toString();
+				Log.d("Regular user",username);
+			}
 			for (String authURL : URL) {
 				HttpClient httpClient = HTTPClients.getDefaultHttpClient();
 				try {
 					HttpPost httpPost = new HttpPost(authURL);
 					List<NameValuePair> params = new ArrayList<NameValuePair>(2);
-					params.add(new BasicNameValuePair("USERNAME", user.getText().toString()));
-					params.add(new BasicNameValuePair("PASSWORD", pass.getText().toString()));
+					params.add(new BasicNameValuePair("USERNAME", username));
+					params.add(new BasicNameValuePair("PASSWORD", password));
 					httpPost.setEntity(new UrlEncodedFormEntity(params, "UTF-8"));
 					
 					HttpResponse response = httpClient.execute(httpPost);
@@ -123,28 +137,49 @@ public class Splash extends Activity {
 
 						// read one line at a time and append to stringBuilder
 						String lineIn;
+						
 						while ((lineIn = reader.readLine()) != null) {
 							userIDBuilder.append(lineIn);
 						}
 						Log.d("Output from site", userIDBuilder.toString());
+						inputStreamReader.close();
 						// // THEN TAKE USER TO MAIN ACTIVITY
 						// Intent intent = new Intent(MainActivity.this,
 						// MainActivity.class);
 						// startActivity(intent);
 						// adapter.notifyDataSetChanged();
+						
 					} else
 						Log.d("STATUS CODE ERROR", "!= 200");
 				} catch (Exception e) {
 					Log.d("Exception", "httpClient");
 					e.printStackTrace();
 				}
-
+				
 			}
 			return userIDBuilder.toString();
 		}
 
 		@Override
 		protected void onPostExecute(String result) {
+			if(admin){
+				Intent registerIntent = new Intent(Splash.this,
+						AccountCreate.class);
+				registerIntent.putExtra("USER_ID", userNameEditText.getText()
+		.toString());
+				startActivity(registerIntent);
+				finish();
+
+			}
+			else
+			{
+				Intent loginIntent = new Intent(Splash.this,MainActivity.class);
+				loginIntent.putExtra("USER_ID", userNameEditText.getText().toString());
+				startActivity(loginIntent);
+				finish();
+			}
+			
+			
 			// TextView temp = new TextView(getActivity());
 			// ListView root;
 			// root=(ListView) findViewById(R.id.userCourseList);

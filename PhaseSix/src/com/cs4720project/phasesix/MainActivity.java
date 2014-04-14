@@ -1,11 +1,29 @@
 package com.cs4720project.phasesix;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.StatusLine;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.FragmentTransaction;
+//import android.app.FragmentTransaction;
+//import android.app.FragmentManager;
+//import android.app.Fragment;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
+//import android.support.v4.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.*;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.Menu;
@@ -24,11 +42,15 @@ public class MainActivity extends FragmentActivity implements
 	private TabsPagerAdapter mAdapter;
 	private ActionBar actionBar;
 	private String userName;
+	private static String logoutURL="http://plato.cs.virginia.edu/~cs4720s14pepper/logout.php";
 	// Tab titles
 
 private String[] tabs = { "My Projects", "My Schedule", "My Meetings"};
 	protected void onResumeFragments(){
 		super.onResumeFragments();
+		((MeetingsFragment) mAdapter.getItem(2)).setUser(userName);
+		((ScheduleFragment) mAdapter.getItem(1)).setUser(userName);
+		((ProjectsFragment) mAdapter.getItem(0)).setUser(userName);
 		if(mAdapter.getCount()>=1){
 			if(((ScheduleFragment)mAdapter.getItem(1)).adapter!=null)
 				((ScheduleFragment)mAdapter.getItem(1)).adapter.notifyDataSetChanged();
@@ -37,8 +59,9 @@ private String[] tabs = { "My Projects", "My Schedule", "My Meetings"};
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
 		setContentView(R.layout.activity_main);
-
+		
 		// Init
 		viewPager = (ViewPager) findViewById(R.id.pager);
 		actionBar = getActionBar();
@@ -85,10 +108,13 @@ private String[] tabs = { "My Projects", "My Schedule", "My Meetings"};
 			viewPager.setCurrentItem(1); // because 'My Schedule' is tab index 1
 		}
 		Log.d("onCreate", "fired");
+		Log.d("MainActivity username",userName);
+		if(userName!=null){
 		((MeetingsFragment) mAdapter.getItem(2)).setUser(userName);
 		((ScheduleFragment) mAdapter.getItem(1)).setUser(userName);
 		((ProjectsFragment) mAdapter.getItem(0)).setUser(userName);
 		((ProjectsFragment) mAdapter.getItem(0)).setActivity(this);
+		}
 	}
 
 	@Override
@@ -163,11 +189,67 @@ private String[] tabs = { "My Projects", "My Schedule", "My Meetings"};
 		//set UserID to ""
 		userName = "";
 		//launch Splash screen
-		Intent intent = new Intent(MainActivity.this,
-				Splash.class);
-		intent.putExtra("USER_ID", userName);
-		startActivity(intent);
-		
+		new LogoutTask().execute(logoutURL);
+		Log.d("Finishing activity",this.toString());
+		((ProjectsFragment)mAdapter.getItem(0)).tempWorkAround=false;
+		((ScheduleFragment)mAdapter.getItem(1)).tempWorkAround=false;
+		((MeetingsFragment)mAdapter.getItem(2)).tempWorkAround=false;
+		((ProjectsFragment)mAdapter.getItem(0)).projectURL = "http://peppernode.azurewebsites.net/project/view/details/";
+		((ScheduleFragment)mAdapter.getItem(1)).userViewCoursesURL = "http://plato.cs.virginia.edu/~cs4720s14pepper/user/";
+		((ScheduleFragment)mAdapter.getItem(1)).userDeleteCourseURL = "http://plato.cs.virginia.edu/~cs4720s14pepper/user/";
+		//mAdapter.popBackStack(mAdapter.getBackStackEntryAt(0).getName(), FragmentManager.POP_BACK_STACK_INCLUSIVE);
+		FragmentManager fm = getSupportFragmentManager();//.beginTransaction();
+//		fm.remove(((Fragment)mAdapter.getItem(0))).commit();
+//		fm.remove(((Fragment)mAdapter.getItem(1))).commit();
+//		fm.remove(((Fragment)mAdapter.getItem(2))).commit();
+		for(int i=0;i<fm.getBackStackEntryCount();i++)
+		fm.popBackStack();
+				super.finish();
+		this.finish();
 	}
+	public class LogoutTask extends AsyncTask<String, Void, String> {
+
+		@Override
+		protected void onPreExecute() {
+		}
+
+		@Override
+		protected String doInBackground(String... URL) {
+
+			
+			for (String logoutURL : URL) {
+				HttpClient httpClient = HTTPClients.getDefaultHttpClient();
+				try {
+					HttpGet httpGet = new HttpGet(logoutURL);
+					HttpResponse response = httpClient.execute(httpGet);
+					StatusLine searchStatus = response.getStatusLine();
+
+					if (searchStatus.getStatusCode() == 200) {
+					//HTTPClients.clearClient();
+						
+					} else
+						Log.d("STATUS CODE ERROR", "!= 200");
+				} catch (Exception e) {
+					Log.d("Exception", "httpClient");
+					e.printStackTrace();
+				}
+
+			}
+			return "Completed";
+		}
+		protected void onPostExecute(String result){
+			Intent intent = new Intent(MainActivity.this,
+					Splash.class);
+			
+			HTTPClients.clearClient();
+			
+			//intent.putExtra("USER_ID", "blob");
+			startActivity(intent);
+			//MainActivity.this.finish();
+			
+		}
+	}
+	
+
 
 }

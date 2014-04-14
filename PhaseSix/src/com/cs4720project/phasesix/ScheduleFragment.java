@@ -157,7 +157,7 @@ public class ScheduleFragment extends Fragment {
 			try {
 				Log.d("Output from Course Site:",result);
 				JSONArray courseArray = new JSONArray(result);
-				Log.d("JSONArray", courseArray.toString());
+				//Log.d("JSONArray", courseArray.toString());
 				for (int i = 0; i < courseArray.length(); i++) {
 					JSONObject courseObject = courseArray.getJSONObject(i);
 

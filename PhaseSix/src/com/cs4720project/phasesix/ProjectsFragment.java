@@ -40,17 +40,17 @@ public class ProjectsFragment extends Fragment {
 	public ProjectAdapter adapter;
 	private ListView projectTableScrollView;
 
-	private static String projectURL = "http://peppernode.azurewebsites.net/project/view/details/";
+	static String projectURL = "http://peppernode.azurewebsites.net/project/view/details/";
 	private static String addNewProjectURL = "http://peppernode.azurewebsites.net/project/add/";
 	private static String deleteProjectURL = "http://peppernode.azurewebsites.net/project/delete/"; // +pid
 	private static String userName;
-	private static boolean tempWorkAround = false;
+	static boolean tempWorkAround = false;
 	private static Context context;
 	private static String deleteProjPID;
 	private static String deleteProjPTITLE;
 
 	public void setUser(String user) {
-
+		
 		if (user == null && !tempWorkAround)
 			userName = "TestAppUser";
 		if (user != null && !tempWorkAround)
@@ -332,7 +332,7 @@ public class ProjectsFragment extends Fragment {
 			try {
 				
 				JSONArray projectArray = new JSONArray(result);
-				Log.d("JSONArray", projectArray.toString());
+				//Log.d("JSONArray", projectArray.toString());
 
 				int lastID = 0;
 
