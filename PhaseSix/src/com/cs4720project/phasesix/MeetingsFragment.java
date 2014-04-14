@@ -18,10 +18,16 @@ import org.json.JSONObject;
 
 
 import android.content.Context;
+import android.graphics.AvoidXfermode.Mode;
+import android.graphics.Color;
+import android.graphics.drawable.ClipDrawable;
+import android.graphics.drawable.ShapeDrawable;
+import android.graphics.drawable.shapes.RectShape;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -95,7 +101,19 @@ public class MeetingsFragment extends Fragment implements
 		resultsTextView = (TextView) rootView
 				.findViewById(R.id.resultsTextView);
 
+		
+		/*
+		 * ProgressBar spinner = new android.widget.ProgressBar(
+                context,
+                null,
+                android.R.attr.progressBarStyle);
+
+spinner.getIndeterminateDrawable().setColorFilter(0xFFFF0000, android.graphics.PorterDuff.Mode.MULTIPLY);
+		 */
 		progressNoise = (ProgressBar) rootView.findViewById(R.id.progressNoise);
+		//progressNoise.getIndeterminateDrawable().setColorFilter(0xFFFF0000, android.graphics.PorterDuff.Mode.MULTIPLY);
+		progressNoise.getProgressDrawable().setColorFilter(Color.RED, android.graphics.PorterDuff.Mode.MULTIPLY);
+		
 		progressCrowd = (ProgressBar) rootView.findViewById(R.id.progressCrowd);
 		
 		Context context = getActivity();
@@ -184,10 +202,16 @@ public class MeetingsFragment extends Fragment implements
 			public void onClick(View v) {
 				// edittext1.setText("");
 				resultsTextView.setText("Results: ");
+				progressNoise.setProgress(0);
+				progressCrowd.setProgress(0);
+				libSpinner.setSelection(0);
+				sectionSpinner.setSelection(0);
+				timeSpinner.setSelection(0);
+				daySpinner.setSelection(0);
+				
 				Toast.makeText(getActivity(),
 						"Please select new criteria above.", Toast.LENGTH_SHORT)
 						.show();
-
 			}
 		});
 
@@ -518,14 +542,17 @@ public class MeetingsFragment extends Fragment implements
 					noiseVal = Integer.parseInt(noiseDec[0]);
 				}
 				progressNoise.setProgress(noiseVal);
+				progressNoise.getProgressDrawable().setColorFilter(Color.WHITE, android.graphics.PorterDuff.Mode.MULTIPLY);
+				
 				
 				String crowd = statusObject.getString("crowd");
 				int crowdVal=0;
 				if (crowd.length()>1){
-					String[] crowdDec = noise.split("\\.");
+					String[] crowdDec = crowd.split("\\.");
 					crowdVal = Integer.parseInt(crowdDec[0]);
 				}
 				progressCrowd.setProgress(crowdVal);
+				progressCrowd.getProgressDrawable().setColorFilter(Color.WHITE, android.graphics.PorterDuff.Mode.MULTIPLY);
 				
 				
 				resultsTextView.setText("Noise: "+noise + " and Crowd: "+crowd);
@@ -538,5 +565,6 @@ public class MeetingsFragment extends Fragment implements
 		}
 
 	}
+
 
 }
