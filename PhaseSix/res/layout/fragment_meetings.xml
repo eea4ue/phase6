@@ -4,28 +4,22 @@
     android:layout_height="match_parent"
     android:orientation="horizontal" >
 
-    <Button
-        android:id="@+id/submitButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="55dp"
-        android:gravity="center"
-        android:text="@string/submit" />
-
     <TextView
         android:id="@+id/resultsTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/submitButton"
-        android:layout_alignRight="@+id/submitButton"
+        android:layout_alignLeft="@+id/spinners"
+        android:layout_alignRight="@+id/spinners"
         android:layout_below="@+id/spinners"
         android:layout_marginTop="162dp"
         android:background="@color/orange_faded"
         android:fontFamily="sans-serif"
         android:gravity="center"
-        android:text="@string/results" />
+        android:paddingBottom="20dp"
+        android:paddingTop="20dp"
+        android:text="@string/results"
+        android:textSize="18sp"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/userNametextView"
@@ -43,9 +37,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/userNametextView"
-        android:layout_marginTop="75dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
+        android:layout_marginTop="75dp"
         android:background="@color/eggshell"
         android:orientation="horizontal" >
 
@@ -77,5 +71,27 @@
             android:layout_weight="1"
             android:text="@string/placeholder" />
     </LinearLayout>
+
+    <Button
+        android:id="@+id/submitButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/resultsTextView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="78dp"
+        android:fontFamily="sans-serif-light"
+        android:gravity="center"
+        android:text="@string/submit" />
+
+    <Button
+        android:id="@+id/clearButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/submitButton"
+        android:layout_alignRight="@+id/submitButton"
+        android:layout_below="@+id/submitButton"
+        android:layout_marginTop="24dp"
+        android:fontFamily="sans-serif-light"
+        android:text="@string/clear" />
 
 </RelativeLayout>

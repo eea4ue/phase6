@@ -1,6 +1,18 @@
 package com.cs4720project.phasesix;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.StatusLine;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+
 import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -14,17 +26,21 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MeetingsFragment extends Fragment implements
 		OnItemSelectedListener {
 
 	LinearLayout spinners;
 	Button submitButton;
+	Button clearButton;
 	Spinner libSpinner;
 	Spinner sectionSpinner;
 	Spinner timeSpinner;
 	Spinner daySpinner;
 	TextView resultsTextView;
+
+	static String libTimeDay = "http://plato.cs.virginia.edu/~pel5xq/library/";
 
 	static String userName;
 	static boolean tempWorkAround = false;
@@ -58,7 +74,7 @@ public class MeetingsFragment extends Fragment implements
 		libSpinner.setAdapter(libAdapter);
 
 		sectionSpinner = (Spinner) rootView.findViewById(R.id.sectionSpinner);
-		
+
 		// TIME SPINNER
 		timeSpinner = (Spinner) rootView.findViewById(R.id.timeSpinner);
 		ArrayAdapter<CharSequence> timeAdapter = ArrayAdapter
@@ -77,20 +93,16 @@ public class MeetingsFragment extends Fragment implements
 				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		daySpinner.setAdapter(dayAdapter);
 
-		// try {
-		// Log.d("searchTerm", userViewCoursesURL);
-		// /** EXECUTE !! GET USER'S COURSE LIST **/
-		//
-		// new GetUserCoursesTask().execute(userViewCoursesURL);
-		//
-		// } catch (Exception e) {
-		// Log.d("userViewCoursesURL Exception", "");
-		// Toast.makeText(context,
-		// "Error: Don't Panic! Problem with searchURL",
-		// Toast.LENGTH_SHORT).show();
-		// e.printStackTrace();
-		// }
-		//
+		resultsTextView = (TextView) rootView
+				.findViewById(R.id.resultsTextView);
+
+		/* BUILD THE URL */
+
+		// libTimeDay =
+		// http://plato.cs.virginia.edu/~pel5xq/library/@lib/timespan/@minutes/day/@day
+		libTimeDay += "Alderman" + "/day/" + "1";
+		// "/timespan/" + "10" +
+
 		/** SUBMIT BUTTON **/
 		View submitButton = rootView.findViewById(R.id.submitButton);
 		submitButton.setOnClickListener(new View.OnClickListener() {
@@ -98,8 +110,37 @@ public class MeetingsFragment extends Fragment implements
 			@Override
 			public void onClick(View v) {
 				/* MAKE THE ASYNC CALL WITH THE BUILT URL */
+				try {
+					Log.d("searchTerm", libTimeDay);
+					new GetDetailsTask().execute(libTimeDay);
+				} catch (Exception e) {
+					Log.d("libTimeDay Exception", "");
+					e.printStackTrace();
+				}
+
+				/*
+				 * SET resultsTextView bug: the below is temp text that gets
+				 * replaced after a few seconds. Web service might just be a
+				 * little slow to respond.
+				 */
+				resultsTextView.setText("Gathering results. Please standby...");
+
 			}
 
+		});
+
+		View clearButton = rootView.findViewById(R.id.clearButton);
+		clearButton.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// edittext1.setText("");
+				resultsTextView.setText("Results: ");
+				Toast.makeText(getActivity(),
+						"Please select new criteria above.", Toast.LENGTH_SHORT)
+						.show();
+
+			}
 		});
 
 		return rootView;
@@ -124,63 +165,67 @@ public class MeetingsFragment extends Fragment implements
 			long arg3) {
 
 		if (arg0.equals(libSpinner)) {
-				sectionSpinner.setEnabled(true);
+			sectionSpinner.setEnabled(true);
 
-		if (libSpinner.getSelectedItem().equals("Alderman")) {
-			ArrayAdapter<CharSequence> adapter0 = ArrayAdapter
-					.createFromResource(getActivity(), R.array.alderman_array,
-							android.R.layout.simple_spinner_item);
-			adapter0.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-			sectionSpinner.setAdapter(adapter0);
+			if (libSpinner.getSelectedItem().equals("Alderman")) {
+				ArrayAdapter<CharSequence> adapter0 = ArrayAdapter
+						.createFromResource(getActivity(),
+								R.array.alderman_array,
+								android.R.layout.simple_spinner_item);
+				adapter0.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+				sectionSpinner.setAdapter(adapter0);
 
-		} else if (libSpinner.getSelectedItem().equals("Clark")) {
+			} else if (libSpinner.getSelectedItem().equals("Clark")) {
 
-			ArrayAdapter<CharSequence> adapter1 = ArrayAdapter
-					.createFromResource(getActivity(), R.array.clark_array,
-							android.R.layout.simple_spinner_item);
-			adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-			sectionSpinner.setAdapter(adapter1);
-		} else if (libSpinner.getSelectedItem().equals("Clemons")) {
+				ArrayAdapter<CharSequence> adapter1 = ArrayAdapter
+						.createFromResource(getActivity(), R.array.clark_array,
+								android.R.layout.simple_spinner_item);
+				adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+				sectionSpinner.setAdapter(adapter1);
+			} else if (libSpinner.getSelectedItem().equals("Clemons")) {
 
-			ArrayAdapter<CharSequence> adapter2 = ArrayAdapter
-					.createFromResource(getActivity(), R.array.clemons_array,
-							android.R.layout.simple_spinner_item);
-			adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-			sectionSpinner.setAdapter(adapter2);
-		} else if (libSpinner.getSelectedItem().equals("Commerce School")) {
+				ArrayAdapter<CharSequence> adapter2 = ArrayAdapter
+						.createFromResource(getActivity(),
+								R.array.clemons_array,
+								android.R.layout.simple_spinner_item);
+				adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+				sectionSpinner.setAdapter(adapter2);
+			} else if (libSpinner.getSelectedItem().equals("Commerce School")) {
 
-			ArrayAdapter<CharSequence> adapter3 = ArrayAdapter
-					.createFromResource(getActivity(),
-							R.array.commerce_school_array,
-							android.R.layout.simple_spinner_item);
-			adapter3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-			sectionSpinner.setAdapter(adapter3);
-		}
+				ArrayAdapter<CharSequence> adapter3 = ArrayAdapter
+						.createFromResource(getActivity(),
+								R.array.commerce_school_array,
+								android.R.layout.simple_spinner_item);
+				adapter3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+				sectionSpinner.setAdapter(adapter3);
+			}
 
-		else if (libSpinner.getSelectedItem().equals("Rice")) {
+			else if (libSpinner.getSelectedItem().equals("Rice")) {
 
-			ArrayAdapter<CharSequence> adapter4 = ArrayAdapter
-					.createFromResource(getActivity(), R.array.rice_array,
-							android.R.layout.simple_spinner_item);
-			adapter4.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-			sectionSpinner.setAdapter(adapter4);
-		} else if (libSpinner.getSelectedItem().equals("Thornton")) {
+				ArrayAdapter<CharSequence> adapter4 = ArrayAdapter
+						.createFromResource(getActivity(), R.array.rice_array,
+								android.R.layout.simple_spinner_item);
+				adapter4.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+				sectionSpinner.setAdapter(adapter4);
+			} else if (libSpinner.getSelectedItem().equals("Thornton")) {
 
-			ArrayAdapter<CharSequence> adapter5 = ArrayAdapter
-					.createFromResource(getActivity(), R.array.thornton_array,
-							android.R.layout.simple_spinner_item);
-			adapter5.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-			sectionSpinner.setAdapter(adapter5);
-		} else if (libSpinner.getSelectedItem().equals("Wilsdorf")) {
+				ArrayAdapter<CharSequence> adapter5 = ArrayAdapter
+						.createFromResource(getActivity(),
+								R.array.thornton_array,
+								android.R.layout.simple_spinner_item);
+				adapter5.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+				sectionSpinner.setAdapter(adapter5);
+			} else if (libSpinner.getSelectedItem().equals("Wilsdorf")) {
 
-			ArrayAdapter<CharSequence> adapter6 = ArrayAdapter
-					.createFromResource(getActivity(), R.array.wilsdorf_array,
-							android.R.layout.simple_spinner_item);
-			adapter6.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-			sectionSpinner.setAdapter(adapter6);
-		}
-		// default:
-		// return super.onOptionsItemSelected(item);
+				ArrayAdapter<CharSequence> adapter6 = ArrayAdapter
+						.createFromResource(getActivity(),
+								R.array.wilsdorf_array,
+								android.R.layout.simple_spinner_item);
+				adapter6.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+				sectionSpinner.setAdapter(adapter6);
+			}
+			// default:
+			// return super.onOptionsItemSelected(item);
 		}
 	}
 
@@ -190,147 +235,59 @@ public class MeetingsFragment extends Fragment implements
 
 	}
 
-	// private class GetUserCoursesTask extends AsyncTask<String, Void, String>
-	// {
-	//
-	// @Override
-	// protected void onPreExecute() {
-	// }
-	//
-	// @Override
-	// protected String doInBackground(String... URL) {
-	//
-	// StringBuilder courseIDBuilder = new StringBuilder();
-	//
-	// for (String searchURL : URL) {
-	// HttpClient httpClient = new DefaultHttpClient();
-	// try {
-	// HttpGet httpGet = new HttpGet(searchURL);
-	// HttpResponse response = httpClient.execute(httpGet);
-	// StatusLine searchStatus = response.getStatusLine();
-	//
-	// if (searchStatus.getStatusCode() == 200) {
-	// HttpEntity entity = response.getEntity();
-	// InputStream content = entity.getContent();
-	//
-	// // read the data you got
-	// InputStreamReader inputStreamReader = new InputStreamReader(
-	// content);
-	// BufferedReader reader = new BufferedReader(
-	// inputStreamReader);
-	//
-	// // read one line at a time and append to stringBuilder
-	// String lineIn;
-	// while ((lineIn = reader.readLine()) != null) {
-	// courseIDBuilder.append(lineIn);
-	// }
-	// } else
-	// Log.d("STATUS CODE", "!= 200");
-	//
-	// } catch (Exception e) {
-	// Log.d("Exception", "");
-	// e.printStackTrace();
-	// }
-	// }
-	// return courseIDBuilder.toString();
-	// }
-	//
-	// @Override
-	// protected void onPostExecute(String result) {
-	// try {
-	// JSONArray courseArray = new JSONArray(result);
-	// Log.d("JSONArray", courseArray.toString());
-	// for (int i = 0; i < courseArray.length(); i++) {
-	// JSONObject courseObject = courseArray.getJSONObject(i);
-	//
-	// Course course = new Course();
-	// course.setCourseID(courseObject.getString("courseID"));
-	// course.setCourseName(courseObject.getString("courseName"));
-	// course.setCourseNum(courseObject.getString("courseNum"));
-	// course.setSectionNum(courseObject.getString("sectionNum"));
-	// course.setCourseInstructor(courseObject
-	// .getString("courseInstructor"));
-	// course.setMeetString(courseObject.getString("meetString"));
-	// course.setMeetRoom(courseObject.getString("meetRoom"));
-	//
-	// userCourses.add(course);
-	// }
-	// } catch (JSONException e) {
-	// Toast.makeText(getActivity(), "Error: onPostExecute",
-	// Toast.LENGTH_SHORT).show();
-	// e.printStackTrace();
-	// }
-	//
-	// if (userCourses != null) {
-	// // update ListView with results
-	// // Log.d("Updater adapter", adapter.toString());
-	// adapter.notifyDataSetChanged();
-	// } else
-	// Toast.makeText(getActivity(),
-	// "User has no courses! Try adding some.",
-	// Toast.LENGTH_SHORT).show();
-	// }
-	// }
-	//
-	// private class DeleteCourseTask extends AsyncTask<String, Void, String> {
-	//
-	// @Override
-	// protected void onPreExecute() {
-	// }
-	//
-	// @Override
-	// protected String doInBackground(String... URL) {
-	//
-	// StringBuilder userIDBuilder = new StringBuilder();
-	//
-	// for (String deleteURL : URL) {
-	// HttpClient httpClient = new DefaultHttpClient();
-	// try {
-	// HttpGet httpGet = new HttpGet(deleteURL);
-	// HttpResponse response = httpClient.execute(httpGet);
-	// StatusLine searchStatus = response.getStatusLine();
-	//
-	// if (searchStatus.getStatusCode() == 200) {
-	// HttpEntity entity = response.getEntity();
-	// InputStream content = entity.getContent();
-	//
-	// // read the data you got
-	// InputStreamReader inputStreamReader = new InputStreamReader(
-	// content);
-	// BufferedReader reader = new BufferedReader(
-	// inputStreamReader);
-	//
-	// // read one line at a time and append to stringBuilder
-	// String lineIn;
-	// while ((lineIn = reader.readLine()) != null) {
-	// userIDBuilder.append(lineIn);
-	// }
-	// Log.d("Output from site", userIDBuilder.toString());
-	// // // THEN TAKE USER TO MAIN ACTIVITY
-	// // Intent intent = new Intent(MainActivity.this,
-	// // MainActivity.class);
-	// // startActivity(intent);
-	// // adapter.notifyDataSetChanged();
-	// } else
-	// Log.d("STATUS CODE ERROR", "!= 200");
-	// } catch (Exception e) {
-	// Log.d("Exception", "httpClient");
-	// e.printStackTrace();
-	// }
-	//
-	// }
-	// return userIDBuilder.toString();
-	// }
-	//
-	// @Override
-	// protected void onPostExecute(String result) {
-	// // TextView temp = new TextView(getActivity());
-	// // ListView root;
-	// // root=(ListView) findViewById(R.id.userCourseList);
-	// // Log.d("Adapter?",((ListView)root).getAdapter().toString());
-	// adapter.notifyDataSetChanged();
-	// }
-	//
-	// }
+	private class GetDetailsTask extends AsyncTask<String, Void, String> {
+
+		@Override
+		protected void onPreExecute() {
+		}
+
+		@Override
+		protected String doInBackground(String... URL) {
+
+			StringBuilder sb = new StringBuilder();
+
+			for (String deleteURL : URL) {
+				HttpClient httpClient = new DefaultHttpClient();
+				try {
+					HttpGet httpGet = new HttpGet(deleteURL);
+					HttpResponse response = httpClient.execute(httpGet);
+					StatusLine searchStatus = response.getStatusLine();
+
+					if (searchStatus.getStatusCode() == 200) {
+						HttpEntity entity = response.getEntity();
+						InputStream content = entity.getContent();
+
+						// read the data you got
+						InputStreamReader inputStreamReader = new InputStreamReader(
+								content);
+						BufferedReader reader = new BufferedReader(
+								inputStreamReader);
+
+						// read one line at a time and append to stringBuilder
+						String lineIn;
+						while ((lineIn = reader.readLine()) != null) {
+							sb.append(lineIn);
+						}
+						Log.d("Output from site", sb.toString());
+
+					} else
+						Log.d("STATUS CODE ERROR", "!= 200");
+				} catch (Exception e) {
+					Log.d("Exception", "httpClient");
+					e.printStackTrace();
+				}
+
+			}
+			return sb.toString();
+		}
+
+		@Override
+		protected void onPostExecute(String result) {
+
+			// adapter.notifyDataSetChanged();
+			resultsTextView.setText(result);
+		}
+
+	}
 
 }
