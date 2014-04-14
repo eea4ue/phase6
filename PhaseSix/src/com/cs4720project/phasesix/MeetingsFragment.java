@@ -49,8 +49,6 @@ public class MeetingsFragment extends Fragment implements
 	HashMap libraryHM = new HashMap();
 	HashMap dayHM = new HashMap();
 	
-	
-
 	static String libTimeDay = "http://plato.cs.virginia.edu/~pel5xq/library/";
 
 	static String userName;
@@ -61,7 +59,7 @@ public class MeetingsFragment extends Fragment implements
 			Bundle savedInstanceState) {
 		
 		/*
-		 * Set up the hash map of library, section url codes
+		 * Set up the hash map of (section title, section url) codes to form valid url
 		 */
 		libraryHM.put("East Wing", "EastWing");
 		libraryHM.put("West Wing", "WestWing");
@@ -149,14 +147,11 @@ public class MeetingsFragment extends Fragment implements
 			public void onClick(View v) {
 				/* MAKE THE ASYNC CALL WITH THE BUILT URL */
 
-				//Kate
 				String libraryURL = makeURL();
-				Log.d("Library URL", libraryURL);
-				new SearchLibraryStatus().execute(libraryURL);
+				//new SearchLibraryStatus().execute(libraryURL);
 				
-				//Esteban
 				try {
-					Log.d("searchTerm", libTimeDay);
+					//Log.d("searchTerm", libTimeDay);
 					Log.d("Library URL", libraryURL);
 					new GetDetailsTask().execute(libraryURL);
 					//new GetDetailsTask().execute(libTimeDay);
@@ -210,9 +205,12 @@ public class MeetingsFragment extends Fragment implements
 	public String makeURL(){
 		String url = "";
 		//hard code in a working url
+		/*
+		 * Set the library, section, time, and day string for url testing
+		 */
 		
 		String library = libSpinner.getSelectedItem().toString();
-		// didn't add all libraries to hashmap
+		// didn't add all libraries to hashmap, only Comm School seems different
 		if (library.equals("Commerce School")){
 			library="Commerce";
 		}
