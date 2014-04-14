@@ -184,6 +184,13 @@ public class MeetingsFragment extends Fragment implements
 			public void onClick(View v) {
 				// edittext1.setText("");
 				resultsTextView.setText("Results: ");
+				progressNoise.setProgress(0);
+				progressCrowd.setProgress(0);
+				libSpinner.setSelection(0);
+				sectionSpinner.setSelection(0);
+				timeSpinner.setSelection(0);
+				daySpinner.setSelection(0);
+				
 				Toast.makeText(getActivity(),
 						"Please select new criteria above.", Toast.LENGTH_SHORT)
 						.show();
