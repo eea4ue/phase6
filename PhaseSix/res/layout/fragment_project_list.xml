@@ -23,7 +23,7 @@
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/showUsername"
         android:layout_marginTop="28dp"
-        android:background="@color/pink"
+        android:background="@color/eggshell"
         android:padding="5dp"
         android:textColor="@color/black"
         android:textColorHint="@color/black"
