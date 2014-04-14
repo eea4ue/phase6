@@ -106,7 +106,7 @@ public class AccountCreate extends Activity {
 			StringBuilder userIDBuilder = new StringBuilder();
 
 			for (String searchURL : URL) {
-				HttpClient httpClient = new DefaultHttpClient();
+				HttpClient httpClient = HTTPClients.getDefaultHttpClient();
 				try {
 					HttpGet httpGet = new HttpGet(searchURL);
 					HttpResponse response = httpClient.execute(httpGet);

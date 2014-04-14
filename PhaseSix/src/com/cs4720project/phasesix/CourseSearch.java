@@ -130,15 +130,15 @@ public class CourseSearch extends Activity {
 											courseNumValue, "UTF-8");
 									String encodedSearch2 = URLEncoder.encode(
 											secNumValue, "UTF-8");
-									String searchURL = addCourseURL
+									String addURL = addCourseURL
 											+ encodedSearch1 + "/"
 											+ encodedSearch2;
 
-									Log.d("searchURL", searchURL);
+									Log.d("addURL", addURL);
 
 									/*** EXECUTE ***/
 									new AddToCourseListTask()
-											.execute(searchURL);
+											.execute(addURL);
 
 									checkbox.toggle();
 
@@ -249,10 +249,10 @@ public class CourseSearch extends Activity {
 
 			StringBuilder courseIDBuilder = new StringBuilder();
 
-			for (String searchURL : URL) {
-				HttpClient httpClient = new DefaultHttpClient();
+			for (String addURL : URL) {
+				HttpClient httpClient = HTTPClients.getDefaultHttpClient();
 				try {
-					HttpGet httpGet = new HttpGet(searchURL);
+					HttpGet httpGet = new HttpGet(addURL);
 					HttpResponse response = httpClient.execute(httpGet);
 					StatusLine searchStatus = response.getStatusLine();
 
@@ -271,9 +271,10 @@ public class CourseSearch extends Activity {
 						while ((lineIn = reader.readLine()) != null) {
 							courseIDBuilder.append(lineIn);
 						}
+						inputStreamReader.close();
+						Log.d("addURL + output", addURL+courseIDBuilder.toString());
 					} else
 						Log.d("STATUS CODE", "!= 200");
-
 				} catch (Exception e) {
 					Log.d("Exception", "");
 					e.printStackTrace();
@@ -330,7 +331,7 @@ public class CourseSearch extends Activity {
 			StringBuilder userIDBuilder = new StringBuilder();
 
 			for (String searchURL : URL) {
-				HttpClient httpClient = new DefaultHttpClient();
+				HttpClient httpClient = HTTPClients.getDefaultHttpClient();
 				try {
 					HttpGet httpGet = new HttpGet(searchURL);
 					HttpResponse response = httpClient.execute(httpGet);
@@ -351,7 +352,7 @@ public class CourseSearch extends Activity {
 						while ((lineIn = reader.readLine()) != null) {
 							userIDBuilder.append(lineIn);
 						}
-
+						inputStreamReader.close();
 					} else
 						Log.d("STATUS CODE ERROR", "!= 200");
 				} catch (Exception e) {

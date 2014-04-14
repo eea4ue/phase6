@@ -10,8 +10,10 @@ import org.apache.http.StatusLine;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
+
 
 import android.content.Context;
 import android.os.AsyncTask;
@@ -21,21 +23,28 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class MeetingsFragment extends Fragment {
+public class MeetingsFragment extends Fragment implements
+		OnItemSelectedListener {
 
 	LinearLayout spinners;
 	Button submitButton;
+	Button clearButton;
 	Spinner libSpinner;
 	Spinner sectionSpinner;
 	Spinner timeSpinner;
 	Spinner daySpinner;
 	TextView resultsTextView;
+
+	static String libTimeDay = "http://plato.cs.virginia.edu/~pel5xq/library/";
 
 	static String userName;
 	static boolean tempWorkAround = false;
@@ -57,25 +66,50 @@ public class MeetingsFragment extends Fragment {
 		Context context = getActivity();
 		spinners = (LinearLayout) rootView.findViewById(R.id.spinners);
 
+		// LIBRARY SPINNER
 		libSpinner = (Spinner) rootView.findViewById(R.id.libSpinner);
-		sectionSpinner = (Spinner) rootView.findViewById(R.id.sectionSpinner);
-		timeSpinner = (Spinner) rootView.findViewById(R.id.timeSpinner);
-		daySpinner = (Spinner) rootView.findViewById(R.id.daySpinner);
+		// Create an ArrayAdapter using the string array and a default spinner
+		// layout
+		libSpinner.setOnItemSelectedListener((OnItemSelectedListener) this);
+		ArrayAdapter<CharSequence> libAdapter = ArrayAdapter
+				.createFromResource(context, R.array.lib_array,
+						android.R.layout.simple_spinner_item);
+		// Specify the layout to use when the list of choices appears
+		libAdapter
+				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		// Apply the adapter to the spinner
+		libSpinner.setAdapter(libAdapter);
 
-		// try {
-		// Log.d("searchTerm", userViewCoursesURL);
-		// /** EXECUTE !! GET USER'S COURSE LIST **/
-		//
-		// new GetUserCoursesTask().execute(userViewCoursesURL);
-		//
-		// } catch (Exception e) {
-		// Log.d("userViewCoursesURL Exception", "");
-		// Toast.makeText(context,
-		// "Error: Don't Panic! Problem with searchURL",
-		// Toast.LENGTH_SHORT).show();
-		// e.printStackTrace();
-		// }
-		//
+		sectionSpinner = (Spinner) rootView.findViewById(R.id.sectionSpinner);
+
+		// TIME SPINNER
+		timeSpinner = (Spinner) rootView.findViewById(R.id.timeSpinner);
+		ArrayAdapter<CharSequence> timeAdapter = ArrayAdapter
+				.createFromResource(context, R.array.time_array,
+						android.R.layout.simple_spinner_item);
+		timeAdapter
+				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		timeSpinner.setAdapter(timeAdapter);
+
+		// DAY SPINNER
+		daySpinner = (Spinner) rootView.findViewById(R.id.daySpinner);
+		ArrayAdapter<CharSequence> dayAdapter = ArrayAdapter
+				.createFromResource(context, R.array.day_array,
+						android.R.layout.simple_spinner_item);
+		dayAdapter
+				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		daySpinner.setAdapter(dayAdapter);
+
+		resultsTextView = (TextView) rootView
+				.findViewById(R.id.resultsTextView);
+
+		/* BUILD THE URL */
+
+		// libTimeDay =
+		// http://plato.cs.virginia.edu/~pel5xq/library/@lib/timespan/@minutes/day/@day
+		libTimeDay += "Alderman" + "/day/" + "1";
+		// "/timespan/" + "10" +
+
 		/** SUBMIT BUTTON **/
 		View submitButton = rootView.findViewById(R.id.submitButton);
 		submitButton.setOnClickListener(new View.OnClickListener() {
@@ -83,14 +117,44 @@ public class MeetingsFragment extends Fragment {
 			@Override
 			public void onClick(View v) {
 				/* MAKE THE ASYNC CALL WITH THE BUILT URL */
+
+				//Kate
 				String libraryURL = makeURL();
 				Log.d("Library URL", libraryURL);
-				
-				//new AddToProjectListTask().execute(addProjectURL);
 				new SearchLibraryStatus().execute(libraryURL);
 				
+				//Esteban
+				try {
+					Log.d("searchTerm", libTimeDay);
+					new GetDetailsTask().execute(libTimeDay);
+				} catch (Exception e) {
+					Log.d("libTimeDay Exception", "");
+					e.printStackTrace();
+				}
+
+				/*
+				 * SET resultsTextView bug: the below is temp text that gets
+				 * replaced after a few seconds. Web service might just be a
+				 * little slow to respond.
+				 */
+				resultsTextView.setText("Gathering results. Please standby...");
+
 			}
 
+		});
+
+		View clearButton = rootView.findViewById(R.id.clearButton);
+		clearButton.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// edittext1.setText("");
+				resultsTextView.setText("Results: ");
+				Toast.makeText(getActivity(),
+						"Please select new criteria above.", Toast.LENGTH_SHORT)
+						.show();
+
+			}
 		});
 
 		return rootView;
@@ -180,23 +244,9 @@ public class MeetingsFragment extends Fragment {
 				
 				Log.d("Noise Level", statusObject.getString("noise"));
 				Log.d("Crowd Level", statusObject.getString("crowd"));
-				//Project project = new Project();
-				
-				
+								
 				Log.d("JSONObject for Library Status", statusObject.toString());
-				
-//				for (int i = 0; i < projectArray.length(); i++) {
-//
-//					JSONObject projectObject = projectArray.getJSONObject(i);
-//					Project project = new Project();
-//
-//					project.setProjectID(projectObject.getString("projectID"));
-//
-//					project.setProjectTitle(projectObject
-//							.getString("projectTitle"));
-//
-//
-//				}
+
 				
 			} catch (Exception e) {
 				Log.d("Library Status URL Exception", "");
@@ -210,147 +260,134 @@ public class MeetingsFragment extends Fragment {
 
 	}
 
-	// private class GetUserCoursesTask extends AsyncTask<String, Void, String>
-	// {
-	//
-	// @Override
-	// protected void onPreExecute() {
-	// }
-	//
-	// @Override
-	// protected String doInBackground(String... URL) {
-	//
-	// StringBuilder courseIDBuilder = new StringBuilder();
-	//
-	// for (String searchURL : URL) {
-	// HttpClient httpClient = new DefaultHttpClient();
-	// try {
-	// HttpGet httpGet = new HttpGet(searchURL);
-	// HttpResponse response = httpClient.execute(httpGet);
-	// StatusLine searchStatus = response.getStatusLine();
-	//
-	// if (searchStatus.getStatusCode() == 200) {
-	// HttpEntity entity = response.getEntity();
-	// InputStream content = entity.getContent();
-	//
-	// // read the data you got
-	// InputStreamReader inputStreamReader = new InputStreamReader(
-	// content);
-	// BufferedReader reader = new BufferedReader(
-	// inputStreamReader);
-	//
-	// // read one line at a time and append to stringBuilder
-	// String lineIn;
-	// while ((lineIn = reader.readLine()) != null) {
-	// courseIDBuilder.append(lineIn);
-	// }
-	// } else
-	// Log.d("STATUS CODE", "!= 200");
-	//
-	// } catch (Exception e) {
-	// Log.d("Exception", "");
-	// e.printStackTrace();
-	// }
-	// }
-	// return courseIDBuilder.toString();
-	// }
-	//
-	// @Override
-	// protected void onPostExecute(String result) {
-	// try {
-	// JSONArray courseArray = new JSONArray(result);
-	// Log.d("JSONArray", courseArray.toString());
-	// for (int i = 0; i < courseArray.length(); i++) {
-	// JSONObject courseObject = courseArray.getJSONObject(i);
-	//
-	// Course course = new Course();
-	// course.setCourseID(courseObject.getString("courseID"));
-	// course.setCourseName(courseObject.getString("courseName"));
-	// course.setCourseNum(courseObject.getString("courseNum"));
-	// course.setSectionNum(courseObject.getString("sectionNum"));
-	// course.setCourseInstructor(courseObject
-	// .getString("courseInstructor"));
-	// course.setMeetString(courseObject.getString("meetString"));
-	// course.setMeetRoom(courseObject.getString("meetRoom"));
-	//
-	// userCourses.add(course);
-	// }
-	// } catch (JSONException e) {
-	// Toast.makeText(getActivity(), "Error: onPostExecute",
-	// Toast.LENGTH_SHORT).show();
-	// e.printStackTrace();
-	// }
-	//
-	// if (userCourses != null) {
-	// // update ListView with results
-	// // Log.d("Updater adapter", adapter.toString());
-	// adapter.notifyDataSetChanged();
-	// } else
-	// Toast.makeText(getActivity(),
-	// "User has no courses! Try adding some.",
-	// Toast.LENGTH_SHORT).show();
-	// }
-	// }
-	//
-	// private class DeleteCourseTask extends AsyncTask<String, Void, String> {
-	//
-	// @Override
-	// protected void onPreExecute() {
-	// }
-	//
-	// @Override
-	// protected String doInBackground(String... URL) {
-	//
-	// StringBuilder userIDBuilder = new StringBuilder();
-	//
-	// for (String deleteURL : URL) {
-	// HttpClient httpClient = new DefaultHttpClient();
-	// try {
-	// HttpGet httpGet = new HttpGet(deleteURL);
-	// HttpResponse response = httpClient.execute(httpGet);
-	// StatusLine searchStatus = response.getStatusLine();
-	//
-	// if (searchStatus.getStatusCode() == 200) {
-	// HttpEntity entity = response.getEntity();
-	// InputStream content = entity.getContent();
-	//
-	// // read the data you got
-	// InputStreamReader inputStreamReader = new InputStreamReader(
-	// content);
-	// BufferedReader reader = new BufferedReader(
-	// inputStreamReader);
-	//
-	// // read one line at a time and append to stringBuilder
-	// String lineIn;
-	// while ((lineIn = reader.readLine()) != null) {
-	// userIDBuilder.append(lineIn);
-	// }
-	// Log.d("Output from site", userIDBuilder.toString());
-	// // // THEN TAKE USER TO MAIN ACTIVITY
-	// // Intent intent = new Intent(MainActivity.this,
-	// // MainActivity.class);
-	// // startActivity(intent);
-	// // adapter.notifyDataSetChanged();
-	// } else
-	// Log.d("STATUS CODE ERROR", "!= 200");
-	// } catch (Exception e) {
-	// Log.d("Exception", "httpClient");
-	// e.printStackTrace();
-	// }
-	//
-	// }
-	// return userIDBuilder.toString();
-	// }
-	//
-	// @Override
-	// protected void onPostExecute(String result) {
-	// // TextView temp = new TextView(getActivity());
-	// // ListView root;
-	// // root=(ListView) findViewById(R.id.userCourseList);
-	// // Log.d("Adapter?",((ListView)root).getAdapter().toString());
-	// adapter.notifyDataSetChanged();
-	// }
-	//
-	// }
+	@Override
+	public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2,
+			long arg3) {
+
+		if (arg0.equals(libSpinner)) {
+			sectionSpinner.setEnabled(true);
+
+			if (libSpinner.getSelectedItem().equals("Alderman")) {
+				ArrayAdapter<CharSequence> adapter0 = ArrayAdapter
+						.createFromResource(getActivity(),
+								R.array.alderman_array,
+								android.R.layout.simple_spinner_item);
+				adapter0.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+				sectionSpinner.setAdapter(adapter0);
+
+			} else if (libSpinner.getSelectedItem().equals("Clark")) {
+
+				ArrayAdapter<CharSequence> adapter1 = ArrayAdapter
+						.createFromResource(getActivity(), R.array.clark_array,
+								android.R.layout.simple_spinner_item);
+				adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+				sectionSpinner.setAdapter(adapter1);
+			} else if (libSpinner.getSelectedItem().equals("Clemons")) {
+
+				ArrayAdapter<CharSequence> adapter2 = ArrayAdapter
+						.createFromResource(getActivity(),
+								R.array.clemons_array,
+								android.R.layout.simple_spinner_item);
+				adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+				sectionSpinner.setAdapter(adapter2);
+			} else if (libSpinner.getSelectedItem().equals("Commerce School")) {
+
+				ArrayAdapter<CharSequence> adapter3 = ArrayAdapter
+						.createFromResource(getActivity(),
+								R.array.commerce_school_array,
+								android.R.layout.simple_spinner_item);
+				adapter3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+				sectionSpinner.setAdapter(adapter3);
+			}
+
+			else if (libSpinner.getSelectedItem().equals("Rice")) {
+
+				ArrayAdapter<CharSequence> adapter4 = ArrayAdapter
+						.createFromResource(getActivity(), R.array.rice_array,
+								android.R.layout.simple_spinner_item);
+				adapter4.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+				sectionSpinner.setAdapter(adapter4);
+			} else if (libSpinner.getSelectedItem().equals("Thornton")) {
+
+				ArrayAdapter<CharSequence> adapter5 = ArrayAdapter
+						.createFromResource(getActivity(),
+								R.array.thornton_array,
+								android.R.layout.simple_spinner_item);
+				adapter5.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+				sectionSpinner.setAdapter(adapter5);
+			} else if (libSpinner.getSelectedItem().equals("Wilsdorf")) {
+
+				ArrayAdapter<CharSequence> adapter6 = ArrayAdapter
+						.createFromResource(getActivity(),
+								R.array.wilsdorf_array,
+								android.R.layout.simple_spinner_item);
+				adapter6.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+				sectionSpinner.setAdapter(adapter6);
+			}
+			// default:
+			// return super.onOptionsItemSelected(item);
+		}
+	}
+
+	@Override
+	public void onNothingSelected(AdapterView<?> arg0) {
+		// nothing
+
+	}
+
+	private class GetDetailsTask extends AsyncTask<String, Void, String> {
+
+		@Override
+		protected void onPreExecute() {
+		}
+
+		@Override
+		protected String doInBackground(String... URL) {
+
+			StringBuilder sb = new StringBuilder();
+
+			for (String deleteURL : URL) {
+				HttpClient httpClient = new DefaultHttpClient();
+				try {
+					HttpGet httpGet = new HttpGet(deleteURL);
+					HttpResponse response = httpClient.execute(httpGet);
+					StatusLine searchStatus = response.getStatusLine();
+
+					if (searchStatus.getStatusCode() == 200) {
+						HttpEntity entity = response.getEntity();
+						InputStream content = entity.getContent();
+
+						// read the data you got
+						InputStreamReader inputStreamReader = new InputStreamReader(
+								content);
+						BufferedReader reader = new BufferedReader(
+								inputStreamReader);
+
+						// read one line at a time and append to stringBuilder
+						String lineIn;
+						while ((lineIn = reader.readLine()) != null) {
+							sb.append(lineIn);
+						}
+						Log.d("Output from site", sb.toString());
+
+					} else
+						Log.d("STATUS CODE ERROR", "!= 200");
+				} catch (Exception e) {
+					Log.d("Exception", "httpClient");
+					e.printStackTrace();
+				}
+
+			}
+			return sb.toString();
+		}
+
+		@Override
+		protected void onPostExecute(String result) {
+
+			// adapter.notifyDataSetChanged();
+			resultsTextView.setText(result);
+		}
+
+	}
 
 }

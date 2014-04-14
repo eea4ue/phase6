@@ -40,6 +40,7 @@
     <string name="Cancel_button">Cancel</string>
     <string name="enter_button">Enter</string>
     <string name="delete_button">Clear List</string>
+    <string name="clear">Clear</string>
     <string name="user">User</string>
     <string name="to_me">To Me</string>
     <string name="to_other">To Other</string>
@@ -78,6 +79,7 @@
     <string name="project_delete_confirm">Are you sure you want to delete this Project?</string>
 
     <string-array name="lib_array">
+        <item></item>
         <item>Alderman</item>
         <item>Clark</item>
         <item>Clemons</item>
@@ -87,28 +89,33 @@
         <item>Wilsdorf</item>
     </string-array>
     <string-array name="alderman_array">
+        <item></item>
         <item>East Wing</item>
         <item>West Wing</item>
         <item>McGregor Room</item>
         <item>Cafe</item>
     </string-array>
     <string-array name="clark_array">
+        <item></item>
         <item>East Wing</item>
         <item>West Wing</item>
         <item>Reading Room</item>
         <item>Stacks</item>
     </string-array>
     <string-array name="clemons_array">
+        <item></item>
         <item>1st Floor</item>
         <item>2nd Floor</item>
         <item>3rd Floor</item>
         <item>4th Floor</item>
     </string-array>
     <string-array name="commerce_school_array">
+        <item></item>
         <item>4th Floor</item>
         <item>Computer Lab</item>
     </string-array>
     <string-array name="rice_array">
+        <item></item>
         <item>1st Floor</item>
         <item>2nd Floor</item>
         <item>3rd Floor</item>
@@ -123,11 +130,13 @@
     </string-array>
 
     <string-array name="time_array">
+        <item></item>
         <item>10 minutes</item>
         <item>30 minutes</item>
         <item>60 minutes</item>
     </string-array>
     <string-array name="day_array">
+        <item></item>
         <item>Sunday</item>
         <item>Monday</item>
         <item>Tuesday</item>
