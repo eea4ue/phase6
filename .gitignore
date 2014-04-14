@@ -68,3 +68,11 @@ PhaseSix/bin/PhaseSix.apk
 *.apk
 
 *.apk
+
+PhaseSix/bin/res/crunch/drawable-hdpi/gridme.png
+
+PhaseSix/bin/res/crunch/drawable-mdpi/gridme.png
+
+PhaseSix/bin/res/crunch/drawable-xhdpi/gridme.png
+
+PhaseSix/bin/res/crunch/drawable-xxhdpi/gridme.png
