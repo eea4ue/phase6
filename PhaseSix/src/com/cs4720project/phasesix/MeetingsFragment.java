@@ -1,6 +1,20 @@
 package com.cs4720project.phasesix;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.StatusLine;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -11,6 +25,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MeetingsFragment extends Fragment {
 
@@ -35,6 +50,9 @@ public class MeetingsFragment extends Fragment {
 		TextView userLabel = (TextView) rootView
 				.findViewById(R.id.userNametextView);
 		userLabel.setText(userName);
+		
+		resultsTextView = (TextView) rootView
+				.findViewById(R.id.resultsTextView);
 
 		Context context = getActivity();
 		spinners = (LinearLayout) rootView.findViewById(R.id.spinners);
@@ -65,6 +83,12 @@ public class MeetingsFragment extends Fragment {
 			@Override
 			public void onClick(View v) {
 				/* MAKE THE ASYNC CALL WITH THE BUILT URL */
+				String libraryURL = makeURL();
+				Log.d("Library URL", libraryURL);
+				
+				//new AddToProjectListTask().execute(addProjectURL);
+				new SearchLibraryStatus().execute(libraryURL);
+				
 			}
 
 		});
@@ -84,6 +108,106 @@ public class MeetingsFragment extends Fragment {
 			tempWorkAround = true;
 			Log.d("from setUser in SchedulesFrag", userName);
 		}
+	}
+	
+	public String makeURL(){
+		String url = "";
+		//hard code in a working url
+		
+		url="http://plato.cs.virginia.edu/~pel5xq/library/clark/day";
+				
+		return url;
+	}
+	
+	private class SearchLibraryStatus extends AsyncTask<String, Void, String> {
+
+		@Override
+		protected void onPreExecute() {
+		}
+
+		@Override
+		protected String doInBackground(String... URL) {
+
+			StringBuilder userIDBuilder = new StringBuilder();
+
+			for (String searchURL : URL) {
+				HttpClient httpClient = new DefaultHttpClient();
+				try {
+					HttpGet httpGet = new HttpGet(searchURL);
+					HttpResponse response = httpClient.execute(httpGet);
+					StatusLine searchStatus = response.getStatusLine();
+
+					if (searchStatus.getStatusCode() == 200) {
+						HttpEntity entity = response.getEntity();
+						InputStream content = entity.getContent();
+
+						// read the data you got
+						InputStreamReader inputStreamReader = new InputStreamReader(
+								content);
+						BufferedReader reader = new BufferedReader(
+								inputStreamReader);
+
+						// read one line at a time and append to stringBuilder
+						String lineIn;
+						while ((lineIn = reader.readLine()) != null) {
+							userIDBuilder.append(lineIn);
+						}
+
+
+					} else
+						Log.d("STATUS CODE ERROR", "!= 200");
+				} catch (Exception e) {
+					Log.d("Exception", "httpClient");
+					e.printStackTrace();
+				}
+
+			}
+			return userIDBuilder.toString();
+		}
+
+		protected void onPostExecute(String result) {
+			
+			try {
+				
+				//show result
+				resultsTextView.setText("testing");
+				
+				JSONObject statusObject = new JSONObject(result);
+				String noise = statusObject.getString("noise");
+				String crowd = statusObject.getString("crowd");
+				
+				resultsTextView.setText("Noise: "+noise + " and Crowd: "+crowd);
+				
+				Log.d("Noise Level", statusObject.getString("noise"));
+				Log.d("Crowd Level", statusObject.getString("crowd"));
+				//Project project = new Project();
+				
+				
+				Log.d("JSONObject for Library Status", statusObject.toString());
+				
+//				for (int i = 0; i < projectArray.length(); i++) {
+//
+//					JSONObject projectObject = projectArray.getJSONObject(i);
+//					Project project = new Project();
+//
+//					project.setProjectID(projectObject.getString("projectID"));
+//
+//					project.setProjectTitle(projectObject
+//							.getString("projectTitle"));
+//
+//
+//				}
+				
+			} catch (Exception e) {
+				Log.d("Library Status URL Exception", "");
+				Toast.makeText(getActivity(),
+						"Error: Don't Panic! Problem with libraryURL",
+						Toast.LENGTH_SHORT).show();
+				e.printStackTrace();
+			}
+
+		}
+
 	}
 
 	// private class GetUserCoursesTask extends AsyncTask<String, Void, String>
