@@ -26,7 +26,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_marginBottom="15dp"
-        android:background="@color/grey"
+        android:background="@color/translucent_white"
         android:gravity="center"
         android:orientation="horizontal" >
 
