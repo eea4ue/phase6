@@ -547,6 +547,10 @@ public class TaskList extends Activity {
 						Log.d("searchURL", searchURL);
 
 						new AssignTasks().execute(searchURL);
+						
+						String refreshURL = viewProjectTasksURL + pid;
+						adapter.clear();
+						new GetProjectTasks().execute(refreshURL);
 
 						adapter.notifyDataSetChanged();
 						Toast.makeText(
@@ -598,6 +602,11 @@ public class TaskList extends Activity {
 
 						new AssignTasks().execute(searchURL);
 						adapter.notifyDataSetChanged();
+						
+						String refreshURL = viewProjectTasksURL + pid;
+						adapter.clear();
+						new GetProjectTasks().execute(refreshURL);
+						
 						Toast.makeText(
 								getApplicationContext(),
 								"Assigning Task: " + taskID + " | "
