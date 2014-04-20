@@ -50,8 +50,7 @@ public class TaskList extends Activity {
 	private EditText taskStatusEditText;
 	private TextView projectTextView;
 	private ListView taskListView;
-	private TextView userListTextView;
-
+	
 	Button addNewTaskButton;
 	// ImageButton is a child of View, not of Button
 	View deleteTaskButton;
