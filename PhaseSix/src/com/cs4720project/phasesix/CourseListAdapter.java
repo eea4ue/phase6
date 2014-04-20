@@ -38,7 +38,7 @@ public class CourseListAdapter extends ArrayAdapter<Course> {
 		//ImageButton deleteCourse = (ImageButton) convertView.findViewById(R.id.imageButton);
 
 		// Populate the data into the template view using the data object
-		course_id_name.setText(course.courseID + ":" + course.courseName + " ");
+		course_id_name.setText(course.courseID + ": " + course.courseName + " ");
 		sec_num.setText(course.sectionNum + " ");
 		course_num.setText(course.courseNum + " ");
 		courseInstructorTimeRoom.setText(course.courseInstructor + ", "

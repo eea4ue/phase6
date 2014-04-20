@@ -34,7 +34,7 @@ public class CourseAdapter extends ArrayAdapter<Course> {
 				.findViewById(R.id.courseInstructorTimeRoom);
 
 		// Populate the data into the template view using the data object
-		course_id_name.setText(course.courseID + ":" + course.courseName + " ");
+		course_id_name.setText(course.courseID + ": " + course.courseName + " ");
 		sec_num.setText(course.sectionNum + " ");
 		course_num.setText(course.courseNum + " ");
 		courseInstructorTimeRoom.setText(course.courseInstructor + ", "
