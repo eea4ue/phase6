@@ -51,6 +51,7 @@
     <string name="edit_task">Edit</string>
     <string name="edit_project">Edit Project</string>
     <string name="test_app_user">TestAppUser</string>
+    <string name="assigned_users">Assigned Users: </string>
 
     <!-- Course Info Strings -->
     <string name="course_id">CourseID</string>

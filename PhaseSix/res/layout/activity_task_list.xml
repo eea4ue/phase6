@@ -2,13 +2,13 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@drawable/retina_wood" >
+    android:background="@drawable/retina_wood"
+    android:orientation="vertical" >
 
     <ListView
         android:id="@+id/taskListView"
         android:layout_width="match_parent"
-        android:layout_height="500dp"
+        android:layout_height="400dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:layout_marginTop="78dp"
@@ -30,62 +30,93 @@
         android:gravity="center"
         android:orientation="horizontal" >
 
-    <EditText
-        android:id="@+id/taskTitleEditText"
-        android:layout_width="wrap_content"
-        android:fontFamily="sans-serif-light"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_weight="1"
-        android:gravity="center_vertical"
-        android:hint="@string/task_title"
-        android:inputType="text" />
+        <EditText
+            android:id="@+id/taskTitleEditText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:fontFamily="sans-serif-light"
+            android:gravity="center_vertical"
+            android:hint="@string/task_title"
+            android:inputType="text" />
 
-    <EditText
-        android:id="@+id/taskStatusEditText"
-        android:layout_width="wrap_content"
-        android:fontFamily="sans-serif-light"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_weight="1"
-        android:gravity="center_vertical"
-        android:hint="@string/task_status"
-        android:inputType="text" />
+        <EditText
+            android:id="@+id/taskStatusEditText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:fontFamily="sans-serif-light"
+            android:gravity="center_vertical"
+            android:hint="@string/task_status"
+            android:inputType="text" />
 
-    <Button
-        android:id="@+id/addNewTaskButton"
-        android:fontFamily="sans-serif-light"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.35"
-        android:text="@string/add_new_tasks" />
-    
+        <Button
+            android:id="@+id/addNewTaskButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.35"
+            android:fontFamily="sans-serif-light"
+            android:text="@string/add_new_tasks" />
     </LinearLayout>
 
     <TextView
         android:id="@+id/textView1"
-        android:fontFamily="sans-serif-light"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:textStyle="bold"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="27dp"
+        android:fontFamily="sans-serif-light"
         android:text="@string/project_colon"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/projectTextView"
-        android:fontFamily="sans-serif-light"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/textView1"
         android:layout_alignBottom="@+id/textView1"
         android:layout_marginLeft="23dp"
         android:layout_toRightOf="@+id/textView1"
+        android:fontFamily="sans-serif-light"
         android:text="@string/placeholder"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textStyle="bold" />
+
+    <LinearLayout
+        android:id="@+id/assignedView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/taskListView"
+        android:layout_marginTop="50dp"
+        android:background="@color/translucent_white"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:padding="5dp" >
+
+        <TextView
+            android:id="@+id/assignedTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-light"
+            android:padding="10dp"
+            android:text="@string/assigned_users"
+            android:textStyle="bold"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/userListTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:fontFamily="sans-serif-light"
+            android:text="@string/placeholder"
+            android:textStyle="bold" />
+    </LinearLayout>
 
 </RelativeLayout>
