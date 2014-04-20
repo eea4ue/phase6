@@ -50,9 +50,10 @@ public class TaskList extends Activity {
 	private EditText taskStatusEditText;
 	private TextView projectTextView;
 	private ListView taskListView;
+	private TextView userListTextView;
 
 	Button addNewTaskButton;
-	//ImageButton is a child of View, not of Button
+	// ImageButton is a child of View, not of Button
 	View deleteTaskButton;
 	Button assignTaskButton;
 
@@ -64,7 +65,6 @@ public class TaskList extends Activity {
 	static String pTitle;
 	static boolean tempWorkAround = false;
 
-	// ArrayList<Task> userTaskArray = new ArrayList<Task>();
 	ArrayList<Task> projectTaskArray = new ArrayList<Task>();
 	TaskAdapter adapter;
 
@@ -83,15 +83,9 @@ public class TaskList extends Activity {
 		// Log.d("Edited pid:", pid);
 		Log.d("Unedited pid:", pid);
 
-		// pid ="4";
-		// user="eea4ue";
-
 		taskTitleEditText = (EditText) findViewById(R.id.taskTitleEditText);
 		taskStatusEditText = (EditText) findViewById(R.id.taskStatusEditText);
 
-		// TextView taskTextView = (TextView) findViewById(R.id.taskTextView);
-		// TextView taskIDTextView = (TextView)
-		// findViewById(R.id.taskIDTextView);
 		projectTextView = (TextView) findViewById(R.id.projectTextView);
 		projectTextView.setText(pTitle);
 
@@ -104,20 +98,25 @@ public class TaskList extends Activity {
 		assignTaskButton = (Button) findViewById(R.id.assignTaskButton);
 
 		addNewTaskButton.setOnClickListener(addNewTaskListener);
-		// deleteTaskButton.setOnClickListener(deleteTaskListener);
-		// assignTaskButton.setOnClickListener(assignTaskListener);
 
 		try {
 
 			String tempProjTaskURL = viewProjectTasksURL;
-			if (pid != null)
+
+			if (pid != null) {
 				tempProjTaskURL += pid;
-			else
+
+			} else {
 				tempProjTaskURL += "4";
+
+			}
 			Log.d("viewProjectTasksURL", tempProjTaskURL);
+
 			new GetProjectTasks().execute(tempProjTaskURL);
+
 		} catch (Exception e) {
 			Log.d("viewProjectTasksURL Exception", "");
+
 			Toast.makeText(
 					getApplicationContext(),
 					"Error: Don't Panic! Problem with getting " + pTitle
@@ -126,17 +125,15 @@ public class TaskList extends Activity {
 		}
 
 		addNewTaskButton = (Button) findViewById(R.id.addNewTaskButton);
-		//deleteTaskButton = (Button) findViewById(R.id.deleteTaskButton);
+
 		assignTaskButton = (Button) findViewById(R.id.assignTaskButton);
 
 		addNewTaskButton.setOnClickListener(addNewTaskListener);
-		// deleteTaskButton.setOnClickListener(deleteTaskListener);
-		//assignTaskButton.setOnClickListener(assignTaskListener);
 
 		taskListView.setAdapter(adapter);
 
 	}
-	
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		MenuInflater inflater = getMenuInflater();
@@ -159,21 +156,20 @@ public class TaskList extends Activity {
 			return super.onOptionsItemSelected(item);
 		}
 	}
-	
+
 	public void about() {
-		Toast.makeText(getApplicationContext(), "Pepper DevTeam: Amas, Larsen, Seid",
-				Toast.LENGTH_LONG).show();
+		Toast.makeText(getApplicationContext(),
+				"Pepper DevTeam: Amas, Larsen, Seid", Toast.LENGTH_LONG).show();
 	}
 
 	public void logout() {
-		//set UserID to ""
+		// set UserID to ""
 		user = "";
-		//launch Splash screen
-		Intent intent = new Intent(TaskList.this,
-				Splash.class);
+		// launch Splash screen
+		Intent intent = new Intent(TaskList.this, Splash.class);
 		intent.putExtra("USER_ID", user);
 		startActivity(intent);
-		
+
 	}
 
 	// public void setUser(String user) {
@@ -336,23 +332,26 @@ public class TaskList extends Activity {
 		builder.setTitle(taskIDString + " | " + taskString);
 		builder.setView(DialogView);
 
-//<<<<<<< HEAD
-//		public void onClick(View v) {
-////			AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-////			LayoutInflater inflater = getActivity().getLayoutInflater();
-//			AlertDialog.Builder builder = new AlertDialog.Builder(TaskList.this);
-//			LayoutInflater inflater = TaskList.this.getLayoutInflater();
-//			View view = inflater.inflate(R.layout.dialog_assigntask, null);
-//			builder.setView(view);
-//			
-////			builder.setView(inflater.inflate(R.layout.dialog_assigntask, null));
-//=======
+		// <<<<<<< HEAD
+		// public void onClick(View v) {
+		// // AlertDialog.Builder builder = new
+		// AlertDialog.Builder(getActivity());
+		// // LayoutInflater inflater = getActivity().getLayoutInflater();
+		// AlertDialog.Builder builder = new AlertDialog.Builder(TaskList.this);
+		// LayoutInflater inflater = TaskList.this.getLayoutInflater();
+		// View view = inflater.inflate(R.layout.dialog_assigntask, null);
+		// builder.setView(view);
+		//
+		// // builder.setView(inflater.inflate(R.layout.dialog_assigntask,
+		// null));
+		// =======
 		builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int which) {
 
 				TextView taskIDTextView = (TextView) findViewById(R.id.taskIDTextView);
-				//String taskIDString = taskIDTextView.getText().toString().trim();
-//>>>>>>> b142105965503a5e42295d334016757d7ca26053
+				// String taskIDString =
+				// taskIDTextView.getText().toString().trim();
+				// >>>>>>> b142105965503a5e42295d334016757d7ca26053
 
 				String param = editTaskStatusEditText.getText().toString();
 
@@ -492,16 +491,16 @@ public class TaskList extends Activity {
 		// ViewGroup par2 = (ViewGroup) (par).getParent();
 		final TextView taskTextView = (TextView) findViewById(R.id.taskTextView);
 		final TextView taskIDTextView = (TextView) findViewById(R.id.taskIDTextView);
-		
+
 		/*
-		 * ViewGroup par = (ViewGroup) v.getParent();
-		TextView projectTitle = (TextView) par.findViewById(R.id.project_title);
+		 * ViewGroup par = (ViewGroup) v.getParent(); TextView projectTitle =
+		 * (TextView) par.findViewById(R.id.project_title);
 		 */
 		ViewGroup par = (ViewGroup) view.getParent();
 		TextView taskIDView = (TextView) par.findViewById(R.id.taskIDTextView);
 		final String taskID = taskIDView.getText().toString();
-		//final String taskID = taskIDTextView.getText().toString();
-				
+		// final String taskID = taskIDTextView.getText().toString();
+
 		AlertDialog.Builder builder = new AlertDialog.Builder(TaskList.this);
 		LayoutInflater inflater = TaskList.this.getLayoutInflater();
 
@@ -530,7 +529,7 @@ public class TaskList extends Activity {
 
 				// adapter = (TaskAdapter) ((ListView) par2).getAdapter();
 
-				//taskID = taskIDTextView.getText().toString();
+				// taskID = taskIDTextView.getText().toString();
 
 				if (user.length() > 0) {
 					try {
@@ -577,7 +576,7 @@ public class TaskList extends Activity {
 
 				// adapter = (TaskAdapter) ((ListView) par2).getAdapter();
 
-				//taskID = taskIDTextView.getText().toString();
+				// taskID = taskIDTextView.getText().toString();
 
 				String assignToUserString = assignToUserEditText.getText()
 						.toString();
@@ -683,9 +682,7 @@ public class TaskList extends Activity {
 
 		@Override
 		protected void onPostExecute(String result) {
-			
-			
-			
+
 			if (projectTaskArray != null) {
 				adapter.notifyDataSetChanged();
 			} else
@@ -795,24 +792,24 @@ public class TaskList extends Activity {
 		@Override
 		protected void onPostExecute(String result) {
 			adapter.notifyDataSetChanged();
-//			projectTaskArray.clear();
-//			try {
-//
-//				String tempProjTaskURL = viewProjectTasksURL;
-//				if (pid != null)
-//					tempProjTaskURL += pid;
-//				else
-//					tempProjTaskURL += "4";
-//				Log.d("viewProjectTasksURL", tempProjTaskURL);
-//				new GetProjectTasks().execute(tempProjTaskURL);
-//			} catch (Exception e) {
-//				Log.d("viewProjectTasksURL Exception", "");
-//				Toast.makeText(
-//						getApplicationContext(),
-//						"Error: Don't Panic! Problem with getting " + pTitle
-//								+ " tasks.", Toast.LENGTH_SHORT).show();
-//				e.printStackTrace();
-//			}
+			// projectTaskArray.clear();
+			// try {
+			//
+			// String tempProjTaskURL = viewProjectTasksURL;
+			// if (pid != null)
+			// tempProjTaskURL += pid;
+			// else
+			// tempProjTaskURL += "4";
+			// Log.d("viewProjectTasksURL", tempProjTaskURL);
+			// new GetProjectTasks().execute(tempProjTaskURL);
+			// } catch (Exception e) {
+			// Log.d("viewProjectTasksURL Exception", "");
+			// Toast.makeText(
+			// getApplicationContext(),
+			// "Error: Don't Panic! Problem with getting " + pTitle
+			// + " tasks.", Toast.LENGTH_SHORT).show();
+			// e.printStackTrace();
+			// }
 		}
 
 	}
@@ -931,7 +928,7 @@ public class TaskList extends Activity {
 					task.setTaskTitle(taskObject.getString("taskTitle"));
 					task.setStatus(taskObject.getString("status"));
 					task.setUserID(taskObject.getString("userID"));
-					
+
 					projectTaskArray.add(task);
 				}
 			} catch (JSONException e) {
@@ -948,4 +945,5 @@ public class TaskList extends Activity {
 						.show();
 		}
 	}
+
 }

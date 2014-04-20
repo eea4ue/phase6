@@ -8,7 +8,7 @@
     <ListView
         android:id="@+id/taskListView"
         android:layout_width="match_parent"
-        android:layout_height="400dp"
+        android:layout_height="500dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:layout_marginTop="78dp"
@@ -86,37 +86,5 @@
         android:text="@string/placeholder"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textStyle="bold" />
-
-    <LinearLayout
-        android:id="@+id/assignedView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/taskListView"
-        android:layout_marginTop="50dp"
-        android:background="@color/translucent_white"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:padding="5dp" >
-
-        <TextView
-            android:id="@+id/assignedTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-light"
-            android:padding="10dp"
-            android:text="@string/assigned_users"
-            android:textStyle="bold"
-            android:textColor="@color/black" />
-
-        <TextView
-            android:id="@+id/userListTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:fontFamily="sans-serif-light"
-            android:text="@string/placeholder"
-            android:textStyle="bold" />
-    </LinearLayout>
 
 </RelativeLayout>
