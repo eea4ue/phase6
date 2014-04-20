@@ -29,6 +29,7 @@ import android.view.View.OnFocusChangeListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class Splash extends Activity {
 
@@ -40,12 +41,12 @@ public class Splash extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.splash);
 
-//		TextView txtView = (TextView) findViewById(R.id.welcomeTextView);
-//		Typeface myTypeface = Typeface.createFromAsset(
-//		                          this.getAssets(),
-//		                          "font/Robot.otf");
-//		txtView.setTypeface(myTypeface);
-		
+		//		TextView txtView = (TextView) findViewById(R.id.welcomeTextView);
+		//		Typeface myTypeface = Typeface.createFromAsset(
+		//		                          this.getAssets(),
+		//		                          "font/Robot.otf");
+		//		txtView.setTypeface(myTypeface);
+
 		userNameEditText = (EditText) findViewById(R.id.userNameEditText);
 
 		userNameEditText.setOnFocusChangeListener(new OnFocusChangeListener() {
@@ -66,7 +67,7 @@ public class Splash extends Activity {
 				new AuthenticateTask(false).execute(authURL);
 				//loginIntent.putExtra("session_id", )
 				finish();
-				
+
 			}
 
 		});
@@ -74,8 +75,9 @@ public class Splash extends Activity {
 		registerButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-								new AuthenticateTask(true).execute(authURL);
-								finish();
+				new AuthenticateTask(true).execute(authURL);
+
+				finish();
 			}
 
 		});
@@ -86,7 +88,7 @@ public class Splash extends Activity {
 		private AuthenticateTask(boolean ad){
 			super();
 			admin=ad;
-			
+
 		}
 		@Override
 		protected void onPreExecute() {
@@ -94,13 +96,13 @@ public class Splash extends Activity {
 
 		@Override
 		protected String doInBackground(String... URL) {
-			
+
 			EditText user = (EditText) findViewById(R.id.userNameEditText);
 			EditText pass = (EditText) findViewById(R.id.passwordEditText);
-			
+
 			StringBuilder userIDBuilder = new StringBuilder();
-				String username="";
-				String password="";
+			String username="";
+			String password="";
 			if(admin)
 			{
 				username="admin";
@@ -121,7 +123,7 @@ public class Splash extends Activity {
 					params.add(new BasicNameValuePair("USERNAME", username));
 					params.add(new BasicNameValuePair("PASSWORD", password));
 					httpPost.setEntity(new UrlEncodedFormEntity(params, "UTF-8"));
-					
+
 					HttpResponse response = httpClient.execute(httpPost);
 					StatusLine searchStatus = response.getStatusLine();
 
@@ -137,7 +139,7 @@ public class Splash extends Activity {
 
 						// read one line at a time and append to stringBuilder
 						String lineIn;
-						
+
 						while ((lineIn = reader.readLine()) != null) {
 							userIDBuilder.append(lineIn);
 						}
@@ -148,43 +150,56 @@ public class Splash extends Activity {
 						// MainActivity.class);
 						// startActivity(intent);
 						// adapter.notifyDataSetChanged();
-						
+
 					} else
 						Log.d("STATUS CODE ERROR", "!= 200");
 				} catch (Exception e) {
 					Log.d("Exception", "httpClient");
 					e.printStackTrace();
 				}
-				
+
 			}
 			return userIDBuilder.toString();
 		}
 
 		@Override
 		protected void onPostExecute(String result) {
-			if(admin){
-				Intent registerIntent = new Intent(Splash.this,
-						AccountCreate.class);
-				registerIntent.putExtra("USER_ID", userNameEditText.getText()
-		.toString());
-				startActivity(registerIntent);
-				finish();
+			boolean success=result.contains("Successful");
+			if(success)
+			{
+				if(admin){
+					Intent registerIntent = new Intent(Splash.this,
+							AccountCreate.class);
+					registerIntent.putExtra("USER_ID", userNameEditText.getText()
+							.toString());
+					startActivity(registerIntent);
+					finish();
 
+				}
+				else
+				{
+					Intent loginIntent = new Intent(Splash.this,MainActivity.class);
+					loginIntent.putExtra("USER_ID", userNameEditText.getText().toString());
+					startActivity(loginIntent);
+					finish();
+				}
 			}
 			else
 			{
-				Intent loginIntent = new Intent(Splash.this,MainActivity.class);
-				loginIntent.putExtra("USER_ID", userNameEditText.getText().toString());
-				startActivity(loginIntent);
+				Toast.makeText(Splash.this, "Incorrect Credentials", Toast.LENGTH_LONG)
+				.show();
+				Intent registerIntent = new Intent(Splash.this,
+						Splash.class);
+				registerIntent.putExtra("USER_ID", userNameEditText.getText()
+						.toString());
+				startActivity(registerIntent);
 				finish();
 			}
-			
-			
 			// TextView temp = new TextView(getActivity());
 			// ListView root;
 			// root=(ListView) findViewById(R.id.userCourseList);
 			// Log.d("Adapter?",((ListView)root).getAdapter().toString());
-					}
+		}
 
 	}
 
