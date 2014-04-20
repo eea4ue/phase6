@@ -44,7 +44,7 @@ public class TaskList extends Activity {
 	static String deleteTaskURL = "http://peppernode.azurewebsites.net/task/delete/"; // +taskID
 	static String assignTaskURL = "http://peppernode.azurewebsites.net/task/assign/"; // +USER_ID/[taskID]";
 	static String viewUserTasksURL = "http://peppernode.azurewebsites.net/task/view/user/"; // +USER_ID";
-	static String viewProjectTasksURL = "http://peppernode.azurewebsites.net/task/view/project/"; // +PID
+	static String viewProjectTasksURL = "http://peppernode.azurewebsites.net/task/view/projectAll/"; // +PID
 
 	private EditText taskTitleEditText;
 	private EditText taskStatusEditText;
@@ -930,7 +930,8 @@ public class TaskList extends Activity {
 					task.setTaskID(taskObject.getString("taskID"));
 					task.setTaskTitle(taskObject.getString("taskTitle"));
 					task.setStatus(taskObject.getString("status"));
-
+					task.setUserID(taskObject.getString("userID"));
+					
 					projectTaskArray.add(task);
 				}
 			} catch (JSONException e) {

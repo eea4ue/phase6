@@ -36,8 +36,7 @@ public class TaskAdapter extends ArrayAdapter<Task> {
 
 		// Populate the data into the template view using the data object
 		taskTextView.setText("(ProjectID: " + task.projectID + ")  |  Task: " + task.taskTitle
-				+ "  |  Status: "
-				+ task.status);
+				+ "  |  Status: "	+ task.status + "  |  Assigned to: "	+ task.userID);
 		taskIDTextView.setText(task.taskID);
 
 		
