@@ -237,6 +237,9 @@ public class TaskList extends Activity {
 					String searchURL = addNewTaskURL + encodedSearch1 + "/"
 							+ encodedSearch2 + "/" + encodedSearch3;
 
+					// add empty value userid to assigned table
+					
+					
 					Log.d("searchURL", searchURL);
 
 					/*** EXECUTE ***/
