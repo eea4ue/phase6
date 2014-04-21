@@ -39,18 +39,18 @@ import android.widget.Toast;
 
 public class TaskList extends Activity {
 
-	static String addNewTaskURL = "http://peppernode.azurewebsites.net/task/addto/"; // +pid
-	static String editTaskURL = "http://peppernode.azurewebsites.net/task/edit/"; // [taskStatus]/[taskID]";
-	static String deleteTaskURL = "http://peppernode.azurewebsites.net/task/delete/"; // +taskID
-	static String assignTaskURL = "http://peppernode.azurewebsites.net/task/assign/"; // +USER_ID/[taskID]";
-	static String viewUserTasksURL = "http://peppernode.azurewebsites.net/task/view/user/"; // +USER_ID";
-	static String viewProjectTasksURL = "http://peppernode.azurewebsites.net/task/view/projectAll/"; // +PID
+	static String addNewTaskURL = "http://project-task-service.herokuapp.com/task/add2/"; // +pid
+	static String editTaskURL = "http://project-task-service.herokuapp.com/task/edit/"; // [taskStatus]/[taskID]";
+	static String deleteTaskURL = "http://project-task-service.herokuapp.com/task/delete/"; // +taskID
+	static String assignTaskURL = "http://project-task-service.herokuapp.com/task/assign/"; // +USER_ID/[taskID]";
+	static String viewUserTasksURL = "http://project-task-service.herokuapp.com/task/view/user/"; // +USER_ID";
+	static String viewProjectTasksURL = "http://project-task-service.herokuapp.com/task/view/projectAll/"; // +PID
 
 	private EditText taskTitleEditText;
 	private EditText taskStatusEditText;
 	private TextView projectTextView;
 	private ListView taskListView;
-	
+
 	Button addNewTaskButton;
 	// ImageButton is a child of View, not of Button
 	View deleteTaskButton;
@@ -132,58 +132,6 @@ public class TaskList extends Activity {
 		taskListView.setAdapter(adapter);
 
 	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.activity_main, menu);
-
-		return super.onCreateOptionsMenu(menu);
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle item selection
-		switch (item.getItemId()) {
-		case R.id.about:
-			about();
-			return true;
-		case R.id.logout:
-			logout();
-			return true;
-		default:
-			return super.onOptionsItemSelected(item);
-		}
-	}
-
-	public void about() {
-		Toast.makeText(getApplicationContext(),
-				"Pepper DevTeam: Amas, Larsen, Seid", Toast.LENGTH_LONG).show();
-	}
-
-	public void logout() {
-		// set UserID to ""
-		user = "";
-		// launch Splash screen
-		Intent intent = new Intent(TaskList.this, Splash.class);
-		intent.putExtra("USER_ID", user);
-		startActivity(intent);
-
-	}
-
-	// public void setUser(String user) {
-	// Log.d("from setUser", user);
-	// if (user == null)
-	// user = "TestAppUser";
-	// if (user != null && !tempWorkAround)
-	// this.user = user.trim();
-	// if (!tempWorkAround) {
-	// /**** UPDATE THESE ****/
-	// // userViewProjectsURL += user + "/";
-	// // userDeleteCourseURL += user + "/delete/";
-	// tempWorkAround = true;
-	// }
-	// }
 
 	public void onTaskImageButtonClick(View v) {
 		ViewGroup par = (ViewGroup) v.getParent();
@@ -273,43 +221,6 @@ public class TaskList extends Activity {
 		}
 	};
 
-	// public OnClickListener deleteTaskListener = new OnClickListener() {
-	//
-	// public void onClick(View v) {
-	//
-	// taskIDTextView = (TextView) findViewById(R.id.taskIDTextView);
-	// taskTextView = (TextView) findViewById(R.id.taskTextView);
-	//
-	// String taskID = taskIDTextView.getText().toString();
-	// String taskText = taskTextView.getText().toString();
-	//
-	// if (taskID.length() > 0) {
-	// try {
-	// String encodedSearch1 = URLEncoder.encode(taskID, "UTF-8");
-	//
-	// // /task/delete/[taskID]";
-	// String searchURL = deleteTaskURL + encodedSearch1;
-	//
-	// Log.d("searchURL", searchURL);
-	//
-	// /*** EXECUTE ***/
-	// new DeleteTask().execute(searchURL);
-	//
-	// Toast.makeText(getApplicationContext(), "Deleting TaskID:"
-	// + taskID + " | " + taskText, Toast.LENGTH_LONG);
-	//
-	// } catch (Exception e) {
-	// Toast.makeText(getApplicationContext(),
-	// "Error deleting task...", Toast.LENGTH_SHORT)
-	// .show();
-	// e.printStackTrace();
-	// }
-	//
-	// }
-	//
-	// }
-	// };
-
 	// Edit: /task/edit/[taskStatus]/[taskID]
 	public void editTask(View view) {
 		ViewGroup par = (ViewGroup) view.getParent();
@@ -334,26 +245,10 @@ public class TaskList extends Activity {
 		builder.setTitle(taskIDString + " | " + taskString);
 		builder.setView(DialogView);
 
-		// <<<<<<< HEAD
-		// public void onClick(View v) {
-		// // AlertDialog.Builder builder = new
-		// AlertDialog.Builder(getActivity());
-		// // LayoutInflater inflater = getActivity().getLayoutInflater();
-		// AlertDialog.Builder builder = new AlertDialog.Builder(TaskList.this);
-		// LayoutInflater inflater = TaskList.this.getLayoutInflater();
-		// View view = inflater.inflate(R.layout.dialog_assigntask, null);
-		// builder.setView(view);
-		//
-		// // builder.setView(inflater.inflate(R.layout.dialog_assigntask,
-		// null));
-		// =======
 		builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int which) {
 
 				TextView taskIDTextView = (TextView) findViewById(R.id.taskIDTextView);
-				// String taskIDString =
-				// taskIDTextView.getText().toString().trim();
-				// >>>>>>> b142105965503a5e42295d334016757d7ca26053
 
 				String param = editTaskStatusEditText.getText().toString();
 
@@ -425,67 +320,6 @@ public class TaskList extends Activity {
 
 	}
 
-	// Assign: /task/assign/[userID]/[taskID]
-	// public void assignTask(View view) {
-	// ViewGroup par = (ViewGroup) view.getParent();
-	// ViewGroup par2 = (ViewGroup) (par).getParent();
-	// adapter = (TaskAdapter) ((ListView) par2).getAdapter();
-	//
-	// TextView taskTextView = (TextView) par.findViewById(R.id.taskTextView);
-	// TextView taskIDTextView = (TextView) par
-	// .findViewById(R.id.taskIDTextView);
-	//
-	// String taskString = taskTextView.getText().toString().trim();
-	//
-	// String taskIDString = taskIDTextView.getText().toString().trim();
-	//
-	// AlertDialog.Builder builder = new AlertDialog.Builder(TaskList.this);
-	// LayoutInflater inflater = TaskList.this.getLayoutInflater();
-	//
-	// final View DialogView = inflater
-	// .inflate(R.layout.dialog_assigntask, null);
-	// final EditText assignToUserEditText = (EditText) DialogView
-	// .findViewById(R.id.assignToUserEditText);
-	//
-	// builder.setTitle(taskIDString + " | " + taskString);
-	// builder.setView(DialogView);
-	//
-	// builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-	// public void onClick(DialogInterface dialog, int which) {
-	//
-	// // TextView taskIDTextView = (TextView)
-	// findViewById(R.id.taskIDTextView);
-	// // String taskIDString = taskIDTextView.getText().toString().trim();
-	//
-	// String param = assignToUserEditText.getText().toString().trim();
-	// Log.d("assignToUser", param);
-	//
-	// Context context = getApplicationContext();
-	// CharSequence taskEditErrorText = "Error! Could not edit task status";
-	// CharSequence noInputErrorText = "Error! No text was entered.";
-	// int duration = Toast.LENGTH_SHORT;
-	//
-	// // adapter.remove(new Project(pIDString, null));
-	// try {
-	// String tempurl = assignTaskURL + param + "/" + taskIDString;
-	// Log.d("assignTask", tempurl);
-	//
-	// /** EXECUTE !! ASSIGN TASK TO USER **/
-	// new AssignTasks().execute(tempurl);
-	// adapter.notifyDataSetChanged();
-	// Toast.makeText(
-	// getApplicationContext(),
-	// "Assigning Task: " + taskIDString + " | " + taskString
-	// + " to User: " + user, Toast.LENGTH_LONG).show();
-	//
-	// ((View) par2.getParent()).invalidate();
-	// } catch (Exception e) {
-	// Log.d("assignTaskURL Exception", "");
-	// e.printStackTrace();
-	// }
-	//
-	// }
-
 	// public OnClickListener assignTaskListener = new OnClickListener() {
 	public void assignTask(View view) {
 
@@ -529,10 +363,6 @@ public class TaskList extends Activity {
 				CharSequence noInputErrorText = "Error! No input!";
 				int duration = Toast.LENGTH_SHORT;
 
-				// adapter = (TaskAdapter) ((ListView) par2).getAdapter();
-
-				// taskID = taskIDTextView.getText().toString();
-
 				if (user.length() > 0) {
 					try {
 						String encodedSearch1 = URLEncoder
@@ -548,17 +378,15 @@ public class TaskList extends Activity {
 						Log.d("searchURL", searchURL);
 
 						new AssignTasks().execute(searchURL);
-						
+
 						String refreshURL = viewProjectTasksURL + pid;
 						adapter.clear();
 						new GetProjectTasks().execute(refreshURL);
-			
-//						adapter.notifyDataSetChanged();
 
 						Toast.makeText(
 								getApplicationContext(),
-								"Assigning Task: " + taskID + " to User: " + user,
-								Toast.LENGTH_LONG).show();
+								"Assigning Task: " + taskID + " to User: "
+										+ user, Toast.LENGTH_LONG).show();
 
 						// ((View) par2.getParent()).invalidate();
 					} catch (Exception e) {
@@ -601,17 +429,16 @@ public class TaskList extends Activity {
 						Log.d("searchURL", searchURL);
 
 						new AssignTasks().execute(searchURL);
-						
+
 						String refreshURL = viewProjectTasksURL + pid;
 						adapter.clear();
 						new GetProjectTasks().execute(refreshURL);
 
-//						adapter.notifyDataSetChanged();
-
 						Toast.makeText(
 								getApplicationContext(),
-								"Assigning Task: " + taskID + " to User: " + assignToUserString,
-								Toast.LENGTH_LONG).show();
+								"Assigning Task: " + taskID + " to User: "
+										+ assignToUserString, Toast.LENGTH_LONG)
+								.show();
 
 					} catch (Exception e) {
 						Toast.makeText(

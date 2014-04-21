@@ -40,9 +40,9 @@ public class ProjectsFragment extends Fragment {
 	public ProjectAdapter adapter;
 	private ListView projectTableScrollView;
 
-	static String projectURL = "http://peppernode.azurewebsites.net/project/view/details/";
-	private static String addNewProjectURL = "http://peppernode.azurewebsites.net/project/add/";
-	private static String deleteProjectURL = "http://peppernode.azurewebsites.net/project/delete/"; // +pid
+	static String projectURL = "http://project-task-service.herokuapp.com/project/view/details/";
+	private static String addNewProjectURL = "http://project-task-service.herokuapp.com/project/add/";
+	private static String deleteProjectURL = "http://project-task-service.herokuapp.com/project/delete/"; // +pid
 	private static String userName;
 	static boolean tempWorkAround = false;
 	private static Context context;
