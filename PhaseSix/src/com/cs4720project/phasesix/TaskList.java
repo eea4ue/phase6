@@ -39,7 +39,7 @@ import android.widget.Toast;
 
 public class TaskList extends Activity {
 
-	static String addNewTaskURL = "http://peppernode.azurewebsites.net/task/add/"; // +pid
+	static String addNewTaskURL = "http://peppernode.azurewebsites.net/task/addto/"; // +pid
 	static String editTaskURL = "http://peppernode.azurewebsites.net/task/edit/"; // [taskStatus]/[taskID]";
 	static String deleteTaskURL = "http://peppernode.azurewebsites.net/task/delete/"; // +taskID
 	static String assignTaskURL = "http://peppernode.azurewebsites.net/task/assign/"; // +USER_ID/[taskID]";
@@ -545,13 +545,15 @@ public class TaskList extends Activity {
 						Log.d("searchURL", searchURL);
 
 						new AssignTasks().execute(searchURL);
-
-						adapter.notifyDataSetChanged();
+						
+						String refreshURL = viewProjectTasksURL + pid;
+						adapter.clear();
+						new GetProjectTasks().execute(refreshURL);
+						
+//						adapter.notifyDataSetChanged();
 						Toast.makeText(
 								getApplicationContext(),
-								"Assigning Task: " + taskID + " | "
-										+ taskTextView.getText().toString()
-										+ " to User: " + user,
+								"Assigning Task: " + taskID + " to User: " + user,
 								Toast.LENGTH_LONG).show();
 
 						// ((View) par2.getParent()).invalidate();
@@ -595,12 +597,15 @@ public class TaskList extends Activity {
 						Log.d("searchURL", searchURL);
 
 						new AssignTasks().execute(searchURL);
-						adapter.notifyDataSetChanged();
+						
+						String refreshURL = viewProjectTasksURL + pid;
+						adapter.clear();
+						new GetProjectTasks().execute(refreshURL);
+						
+//						adapter.notifyDataSetChanged();
 						Toast.makeText(
 								getApplicationContext(),
-								"Assigning Task: " + taskID + " | "
-										+ taskTextView.getText().toString()
-										+ " to User: " + assignToUserString,
+								"Assigning Task: " + taskID + " to User: " + assignToUserString,
 								Toast.LENGTH_LONG).show();
 
 					} catch (Exception e) {
