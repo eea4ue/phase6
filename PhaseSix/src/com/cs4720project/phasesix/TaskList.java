@@ -553,8 +553,8 @@ public class TaskList extends Activity {
 //						adapter.notifyDataSetChanged();
 						Toast.makeText(
 								getApplicationContext(),
-								"Assigning Task: " + taskID + " to User: " + user,
-								Toast.LENGTH_LONG).show();
+								"Assigning Task: " + taskID + " to User: "
+										+ user, Toast.LENGTH_LONG).show();
 
 						// ((View) par2.getParent()).invalidate();
 					} catch (Exception e) {
@@ -605,8 +605,9 @@ public class TaskList extends Activity {
 //						adapter.notifyDataSetChanged();
 						Toast.makeText(
 								getApplicationContext(),
-								"Assigning Task: " + taskID + " to User: " + assignToUserString,
-								Toast.LENGTH_LONG).show();
+								"Assigning Task: " + taskID + " to User: "
+										+ assignToUserString, Toast.LENGTH_LONG)
+								.show();
 
 					} catch (Exception e) {
 						Toast.makeText(
