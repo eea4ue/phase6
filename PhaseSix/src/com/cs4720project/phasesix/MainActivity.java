@@ -194,7 +194,7 @@ private String[] tabs = { "My Projects", "My Schedule", "My Meetings"};
 		((ProjectsFragment)mAdapter.getItem(0)).tempWorkAround=false;
 		((ScheduleFragment)mAdapter.getItem(1)).tempWorkAround=false;
 		((MeetingsFragment)mAdapter.getItem(2)).tempWorkAround=false;
-		((ProjectsFragment)mAdapter.getItem(0)).projectURL = "http://peppernode.azurewebsites.net/project/view/details/";
+		((ProjectsFragment)mAdapter.getItem(0)).projectURL = "http://project-task-service.herokuapp.com/project/view/details/";
 		((ScheduleFragment)mAdapter.getItem(1)).userViewCoursesURL = "http://plato.cs.virginia.edu/~cs4720s14pepper/user/";
 		((ScheduleFragment)mAdapter.getItem(1)).userDeleteCourseURL = "http://plato.cs.virginia.edu/~cs4720s14pepper/user/";
 		//mAdapter.popBackStack(mAdapter.getBackStackEntryAt(0).getName(), FragmentManager.POP_BACK_STACK_INCLUSIVE);

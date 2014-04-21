@@ -39,12 +39,12 @@ import android.widget.Toast;
 
 public class TaskList extends Activity {
 
-	static String addNewTaskURL = "http://peppernode.azurewebsites.net/task/addto/"; // +pid
-	static String editTaskURL = "http://peppernode.azurewebsites.net/task/edit/"; // [taskStatus]/[taskID]";
-	static String deleteTaskURL = "http://peppernode.azurewebsites.net/task/delete/"; // +taskID
-	static String assignTaskURL = "http://peppernode.azurewebsites.net/task/assign/"; // +USER_ID/[taskID]";
-	static String viewUserTasksURL = "http://peppernode.azurewebsites.net/task/view/user/"; // +USER_ID";
-	static String viewProjectTasksURL = "http://peppernode.azurewebsites.net/task/view/projectAll/"; // +PID
+	static String addNewTaskURL = "http://project-task-service.herokuapp.com/task/add2/"; // +pid
+	static String editTaskURL = "http://project-task-service.herokuapp.com/task/edit/"; // [taskStatus]/[taskID]";
+	static String deleteTaskURL = "http://project-task-service.herokuapp.com/task/delete/"; // +taskID
+	static String assignTaskURL = "http://project-task-service.herokuapp.com/task/assign/"; // +USER_ID/[taskID]";
+	static String viewUserTasksURL = "http://project-task-service.herokuapp.com/task/view/user/"; // +USER_ID";
+	static String viewProjectTasksURL = "http://project-task-service.herokuapp.com/task/view/projectAll/"; // +PID
 
 	private EditText taskTitleEditText;
 	private EditText taskStatusEditText;
